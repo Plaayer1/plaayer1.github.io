@@ -1,0 +1,2775 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; img-src 'self' data: https:; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; object-src 'none'; frame-ancestors 'none'; connect-src 'self' https://website-5eml.onrender.com https://cdn.jsdelivr.net;">
+    <title>Tamed Blox - Premium Roblox Shop</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --bg-page: #050816;
+            --bg-page-alt: #020617;
+            --bg-glass: rgba(15, 23, 42, 0.86);
+            --bg-glass-deep: rgba(2, 6, 23, 0.96);
+            --border-soft: rgba(148, 163, 184, 0.4);
+            --border-strong: rgba(148, 163, 184, 0.7);
+            --shadow-soft: 0 22px 60px rgba(0, 0, 0, 0.9);
+            --shadow-subtle: 0 18px 45px rgba(15, 23, 42, 0.9);
+            --accent: #a855f7;
+            --accent-soft: #4c1d95;
+            --accent-strong: #c4b5fd;
+            --accent-subtle: rgba(168, 85, 247, 0.25);
+            --text-main: #e5e7eb;
+            --text-muted: #9ca3af;
+            --radius-xl: 24px;
+            --radius-2xl: 30px;
+        }
+
+        * { box-sizing: border-box; }
+
+        html {
+            scroll-behavior: smooth; /* force smooth scroll for all anchor jumps */
+        }
+
+        body {
+            margin: 0;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", sans-serif;
+            background:
+                radial-gradient(circle at top left, #111827 0, #020617 38%, #020617 100%),
+                radial-gradient(circle at 10% 0%, rgba(168, 85, 247, 0.35) 0, transparent 55%),
+                radial-gradient(circle at 90% 0%, rgba(88, 28, 135, 0.4) 0, transparent 55%),
+                radial-gradient(circle at 50% 100%, rgba(15, 23, 42, 0.9) 0, #020617 75%);
+            min-height: 100vh;
+            color: var(--text-main);
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(circle at 18% 15%, rgba(217, 70, 239, 0.18) 0, transparent 55%),
+                radial-gradient(circle at 82% 10%, rgba(129, 140, 248, 0.12) 0, transparent 55%),
+                radial-gradient(circle at 50% 100%, rgba(15, 23, 42, 0.95) 0, transparent 65%);
+            opacity: 0.9;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .glass {
+            background: var(--bg-glass);
+            backdrop-filter: blur(22px);
+            -webkit-backdrop-filter: blur(22px);
+            border: 1px solid var(--border-soft);
+            box-shadow: var(--shadow-subtle);
+            border-radius: var(--radius-xl);
+        }
+
+        .glass-dark {
+            background: var(--bg-glass-deep);
+            backdrop-filter: blur(26px);
+            -webkit-backdrop-filter: blur(26px);
+            border: 1px solid var(--border-strong);
+            box-shadow: var(--shadow-soft);
+        }
+
+        .nav-blur {
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            background: rgba(3, 7, 18, 0.9);
+            border-bottom: 1px solid rgba(148, 163, 184, 0.5);
+        }
+
+        .product-card {
+            transition: transform 0.35s cubic-bezier(0.19, 1, 0.22, 1),
+                        box-shadow 0.35s cubic-bezier(0.19, 1, 0.22, 1),
+                        border-color 0.35s ease;
+            border-radius: var(--radius-2xl);
+        }
+
+        .product-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 22px 60px rgba(0, 0, 0, 0.9);
+            border-color: rgba(168, 85, 247, 0.7);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+            color: #f9fafb;
+            border-radius: 999px;
+            padding: 0.9rem 1.8rem;
+            font-weight: 700;
+            font-size: 1rem;
+            letter-spacing: 0.02em;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.35rem;
+            border: 1px solid rgba(250, 245, 255, 0.35);
+            box-shadow: 0 18px 45px rgba(88, 28, 135, 0.75);
+            transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease, background 0.18s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            filter: brightness(1.06);
+            box-shadow: 0 22px 60px rgba(88, 28, 135, 0.9);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+            box-shadow: 0 12px 30px rgba(76, 29, 149, 0.7);
+        }
+
+        .btn-ghost {
+            border-radius: 999px;
+            padding: 0.8rem 1.4rem;
+            border: 1px solid rgba(148, 163, 184, 0.7);
+            background: radial-gradient(circle at top left, rgba(15, 23, 42, 0.96), rgba(15, 23, 42, 0.96));
+            color: #e5e7eb;
+            font-size: 0.95rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            transition: background 0.2s ease, border-color 0.2s ease, transform 0.18s ease, color 0.2s ease;
+        }
+
+        .btn-ghost:hover {
+            background: radial-gradient(circle at top left, rgba(31, 41, 55, 0.98), rgba(15, 23, 42, 0.96));
+            border-color: rgba(168, 85, 247, 0.9);
+            color: #f9fafb;
+            transform: translateY(-1px);
+        }
+
+        .pill {
+            border-radius: 999px;
+            background: rgba(15, 23, 42, 0.96);
+            padding: 0.3rem 0.9rem;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            color: var(--text-muted);
+            border: 1px solid rgba(148, 163, 184, 0.6);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-weight: 600;
+        }
+
+        .pill-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 999px;
+            background: #22c55e;
+        }
+
+        .input-field {
+            border-radius: 999px;
+            border: 1px solid rgba(148, 163, 184, 0.6);
+            padding: 0.8rem 1rem;
+            font-size: 0.9rem;
+            background: rgba(15, 23, 42, 0.98) !important;
+            color: #e5e7eb !important;
+            outline: none;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, transform 0.12s ease;
+        }
+
+        .input-field:focus {
+            border-color: rgba(168, 85, 247, 1) !important;
+            box-shadow: 0 0 0 1px rgba(168, 85, 247, 0.95), 0 0 20px rgba(88, 28, 135, 0.95);
+            background: rgba(15, 23, 42, 1) !important;
+            transform: translateY(-1px);
+        }
+
+        .input-field::placeholder { color: rgba(148, 163, 184, 0.75) !important; }
+        .input-field.error {
+            border-color: #f97373 !important;
+            box-shadow: 0 0 0 1px rgba(248, 113, 113, 0.7);
+        }
+
+        h1, h2, h3, h4 {
+            letter-spacing: -0.04em;
+            font-weight: 800;
+        }
+
+        .hero-title {
+            font-size: clamp(3rem, 4.8vw, 3.8rem);
+            line-height: 1.05;
+            color: #f9fafb;
+            font-weight: 900;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.1rem, 1.5vw, 1.3rem);
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(24px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: scale(0.96); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes floatSoft {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+
+        .animate-fadeInUp { animation: fadeInUp 0.6s ease-out forwards; }
+        .animate-fadeIn { animation: fadeIn 0.55s ease-out forwards; }
+        .animate-fadeInScale { animation: fadeInScale 0.45s ease-out forwards; }
+        .animate-floatSoft { animation: floatSoft 5s ease-in-out infinite; }
+
+        .stagger-1 { animation-delay: 0.05s; opacity: 0; }
+        .stagger-2 { animation-delay: 0.12s; opacity: 0; }
+        .stagger-3 { animation-delay: 0.18s; opacity: 0; }
+        .stagger-4 { animation-delay: 0.24s; opacity: 0; }
+        .stagger-5 { animation-delay: 0.3s; opacity: 0; }
+        .stagger-6 { animation-delay: 0.36s; opacity: 0; }
+
+        .tab-btn {
+            border-radius: 999px;
+            padding: 0.6rem 1.3rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            border: 1px solid transparent;
+            background: transparent;
+        }
+
+        .tab-btn.active {
+            background: rgba(76, 29, 149, 0.45);
+            color: #e9d5ff;
+            border-color: rgba(168, 85, 247, 1);
+            box-shadow: 0 10px 35px rgba(76, 29, 149, 0.95);
+        }
+
+        .toast-container {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 100;
+        }
+
+        .toast {
+            display: flex;
+            align-items: center;
+            padding: 0.9rem 1.4rem;
+            border-radius: 999px;
+            margin-bottom: 0.75rem;
+            color: white;
+            box-shadow: 0 18px 45px rgba(0, 0, 0, 0.9);
+            transform: translateX(120%);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            transition: transform 0.45s cubic-bezier(0.19, 1, 0.22, 1);
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .toast.show { transform: translateX(0); }
+        .toast.success { background: linear-gradient(135deg, #22c55e, #16a34a); }
+        .toast.error { background: linear-gradient(135deg, #ef4444, #dc2626); }
+
+        .loader-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(3, 7, 18, 0.8);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 110;
+        }
+
+        .loader-overlay:not(.hidden) { display: flex; }
+
+        .loader {
+            width: 46px;
+            height: 46px;
+            border-radius: 999px;
+            border: 3px solid rgba(148, 163, 184, 0.45);
+            border-top-color: var(--accent);
+            animation: spin 0.9s linear infinite;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        #cartSidebar { border-radius: 24px 0 0 24px; border-left: 1px solid rgba(148, 163, 184, 0.6); }
+
+        .pagination-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.75rem;
+            margin-top: 2rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .pagination-btn {
+            padding: 0.45rem 0.9rem;
+            border-radius: 999px;
+            background-color: rgba(76, 29, 149, 0.6);
+            color: #e9d5ff;
+            border: 1px solid rgba(196, 181, 253, 0.9);
+            transition: background 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
+        }
+
+        .pagination-btn:hover:not(:disabled) {
+            background-color: rgba(168, 85, 247, 1);
+            box-shadow: 0 10px 26px rgba(76, 29, 149, 0.95);
+            transform: translateY(-1px);
+        }
+
+        .pagination-btn:disabled {
+            opacity: 0.45;
+            cursor: not-allowed;
+            box-shadow: none;
+            transform: none;
+        }
+
+        @media (max-width: 768px) {
+            nav .brand-text { font-size: 1.2rem; }
+            .glass { border-radius: 18px; }
+            .glass-dark { border-radius: 18px; }
+            .product-card { border-radius: 20px; }
+            button, a, input, select { min-height: 44px; }
+        }
+    </style>
+</head>
+<body class="font-sans antialiased">
+    <!-- NAVIGATION -->
+    <nav class="nav-blur fixed w-full top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="brand-text text-lg md:text-2xl font-extrabold tracking-tight cursor-pointer flex items-center gap-2 text-slate-100" onclick="goHome()">
+                    <span class="inline-flex h-8 w-8 rounded-2xl bg-gradient-to-br from-purple-500 to-fuchsia-500 shadow-md items-center justify-center text-xs text-white font-bold">TB</span>
+                    <span>Tamed Blox</span>
+                </div>
+                <div class="hidden md:flex gap-6 items-center text-base font-bold">
+                    <a href="#products" class="text-slate-200 hover:text-slate-50 transition" onclick="handleNavToProducts(event)">Products</a>
+                    <a href="#reviewsPage" class="text-slate-200 hover:text-slate-50 transition" onclick="handleSmoothScroll(event, 'reviewsPage')">Reviews</a>
+                    <a href="#about" class="text-slate-200 hover:text-slate-50 transition" onclick="handleSmoothScroll(event, 'about')">About</a>
+                    <a href="https://www.tiktok.com/@tameddino" target="_blank" class="text-slate-400 hover:text-slate-100 transition">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64 2.93 2.93 0 01.88.13V9.4a6.84 6.84 0 00-1-.05A6.33 6.33 0 005 20.1a6.34 6.34 0 0010.86-4.43v-7a8.16 8.16 0 004.77 1.52v-3.4a4.85 4.85 0 01-1-.1z"/></svg>
+                    </a>
+                    <a href="https://www.youtube.com/@TamedDino" target="_blank" class="text-slate-400 hover:text-slate-100 transition">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                    </a>
+                    <button id="loginBtn" onclick="openLogin()" class="btn-ghost">Login</button>
+                    <button onclick="showWishlist()" class="relative btn-ghost px-3">
+                        <span>Wishlist</span>
+                        <span id="wishlistCount" class="hidden absolute -top-1 -right-1 bg-rose-500 text-white rounded-full w-4 h-4 flex items-center justify-center text-[0.65rem]">0</span>
+                    </button>
+                    <button onclick="toggleCart()" class="btn-primary relative">
+                        <span>Cart</span>
+                        <span id="cartCount" class="absolute -top-2 -right-2 bg-rose-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-[0.65rem] hidden">0</span>
+                    </button>
+                </div>
+                <div class="md:hidden">
+                    <button onclick="toggleMobileMenu()" class="text-slate-200">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                    </button>
+                </div>
+            </div>
+            <div id="mobileMenu" class="hidden md:hidden py-4 glass rounded-2xl mt-1">
+                <a href="#" class="block py-2.5 px-3 text-slate-100 hover:bg-slate-800 rounded-xl" onclick="handleNavToProducts(event); toggleMobileMenu();">Products</a>
+                <a href="#" class="block py-2.5 px-3 text-slate-100 hover:bg-slate-800 rounded-xl" onclick="handleSmoothScroll(event, 'reviewsPage'); toggleMobileMenu();">Reviews</a>
+                <a href="#" class="block py-2.5 px-3 text-slate-100 hover:bg-slate-800 rounded-xl" onclick="handleSmoothScroll(event, 'about'); toggleMobileMenu();">About</a>
+                <button id="mobileLoginBtn" onclick="openLogin(); toggleMobileMenu();" class="block w-full text-left py-2.5 px-3 text-slate-100 hover:bg-slate-800 rounded-xl">Login</button>
+                <button onclick="showWishlist(); toggleMobileMenu();" class="block w-full text-left py-2.5 px-3 text-slate-100 hover:bg-slate-800 rounded-xl">Wishlist</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section id="heroSection" class="pt-28 pb-16 px-4">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row gap-10 items-center">
+            <div class="flex-1 space-y-6 animate-fadeInUp stagger-1">
+                <div class="pill">
+                    <span class="pill-dot"></span>
+                    <span>Roblox marketplace</span>
+                </div>
+                <h1 class="hero-title">#1 Steal A Brainrot Shop</h1>
+                <p class="hero-subtitle max-w-xl">Premium steal a brainrot pets. Best prices.</p>
+                <div class="flex flex-wrap gap-3 mt-2">
+                    <button onclick="scrollToProducts()" class="btn-primary">
+                        <span>Browse Brainrots</span>
+                    </button>
+                    <button onclick="document.getElementById('reviewsPage').scrollIntoView({behavior:'smooth'})" class="btn-ghost">
+                        <span>See reviews</span>
+                    </button>
+                </div>
+                <div class="flex items-center gap-3 text-xs text-slate-400 pt-2">
+                    <div class="flex -space-x-2">
+                        <span class="w-7 h-7 rounded-full bg-gradient-to-br from-purple-500 to-fuchsia-500 border border-slate-900"></span>
+                        <span class="w-7 h-7 rounded-full bg-gradient-to-br from-rose-400 to-orange-300 border border-slate-900"></span>
+                        <span class="w-7 h-7 rounded-full bg-slate-900 text-[0.6rem] flex items-center justify-center text-white border border-slate-900">+99</span>
+                    </div>
+                    <span>Trusted by hundreds of Roblox buyers</span>
+                </div>
+            </div>
+            <div class="flex-1 w-full max-w-md md:max-w-none animate-fadeInUp stagger-2">
+                <div class="glass-dark rounded-[32px] p-5 md:p-6 shadow-xl">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-xs font-semibold text-slate-300 uppercase tracking-[0.22em]">Featured drops</span>
+                        <span class="px-2.5 py-1 rounded-full bg-[rgba(76,29,149,0.65)] text-[0.7rem] font-semibold text-violet-100 border border-[rgba(196,181,253,0.9)]">Live stock</span>
+                    </div>
+                    <div class="space-y-4" id="heroFeaturedItems">
+                        <!-- JS will inject featured products -->
+                    </div>
+                    <button onclick="scrollToProducts()" class="mt-4 w-full btn-primary justify-center">View full shop</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ADMIN DASHBOARD -->
+    <section id="adminDashboard" class="hidden pt-28 pb-20 px-4">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex justify-between items-center mb-10 animate-fadeInUp">
+                <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-slate-50">Admin dashboard</h1>
+                <button onclick="logout()" class="btn-ghost text-rose-400 border-rose-400/40 hover:border-rose-300">Logout</button>
+            </div>
+
+            <div class="flex gap-3 mb-8 overflow-x-auto pb-1">
+                <button onclick="showAdminTab('stats')" class="tab-btn active" id="tab-stats">Overview</button>
+                <button onclick="showAdminTab('products')" class="tab-btn" id="tab-products">Products</button>
+                <button onclick="showAdminTab('orders')" class="tab-btn" id="tab-orders">Orders</button>
+                <button onclick="showAdminTab('customers')" class="tab-btn" id="tab-customers">Customers</button>
+                <button onclick="showAdminTab('reviews')" class="tab-btn" id="tab-reviews">Reviews</button>
+                <button onclick="showAdminTab('discounts')" class="tab-btn" id="tab-discounts">Discounts</button>
+                <button onclick="showAdminTab('messages')" class="tab-btn" id="tab-messages">Messages</button>
+            </div>
+
+            <!-- Stats Tab -->
+            <div id="admin-stats" class="admin-tab">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-10">
+                    <div class="glass stat-card rounded-2xl p-5">
+                        <p class="text-xs uppercase tracking-[0.18em] text-slate-400 mb-1">Products</p>
+                        <p class="text-2xl font-bold text-slate-50" id="totalProducts">0</p>
+                    </div>
+                    <div class="glass stat-card rounded-2xl p-5">
+                        <p class="text-xs uppercase tracking-[0.18em] text-slate-400 mb-1">Revenue</p>
+                        <p class="text-2xl font-bold text-slate-50" id="totalRevenue">$0.00</p>
+                    </div>
+                    <div class="glass stat-card rounded-2xl p-5">
+                        <p class="text-xs uppercase tracking-[0.18em] text-slate-400 mb-1">Orders</p>
+                        <p class="text-2xl font-bold text-slate-50" id="totalOrders">0</p>
+                    </div>
+                    <div class="glass stat-card rounded-2xl p-5">
+                        <p class="text-xs uppercase tracking-[0.18em] text-slate-400 mb-1">Customers</p>
+                        <p class="text-2xl font-bold text-slate-50" id="totalCustomers">0</p>
+                    </div>
+                </div>
+
+                <div class="glass rounded-2xl p-6 mb-8">
+                    <div class="flex items-center justify-between mb-3">
+                        <h3 class="text-sm font-semibold tracking-tight text-slate-50">Last 7 days revenue</h3>
+                        <span class="text-xs text-slate-400">Auto‑generated</span>
+                    </div>
+                    <canvas id="revenueChart" height="80"></canvas>
+                </div>
+
+                <div class="glass rounded-2xl p-6">
+                    <h3 class="text-sm font-semibold tracking-tight text-slate-50 mb-3">Top products</h3>
+                    <div id="topProductsList" class="text-sm"></div>
+                </div>
+            </div>
+
+            <!-- Products Tab -->
+            <div id="admin-products" class="admin-tab hidden">
+                <div class="glass rounded-2xl p-6 mb-8">
+                    <h2 class="text-lg font-bold tracking-tight text-slate-50 mb-4">Add / edit product</h2>
+                    <form onsubmit="saveProduct(event)" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <input type="hidden" id="editProductId">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 mb-1">Item name</label>
+                            <input type="text" id="productName" required class="input-field w-full">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 mb-1">Price ($)</label>
+                            <input type="number" id="productPrice" step="0.01" required class="input-field w-full">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 mb-1">Stock quantity</label>
+                            <input type="number" id="productStock" required class="input-field w-full">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 mb-1">Image URL</label>
+                            <input type="url" id="productImage" required class="input-field w-full" placeholder="https://...">
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-xs font-semibold text-slate-300 mb-1">Description</label>
+                            <input type="text" id="productDescription" required class="input-field w-full">
+                        </div>
+                        <div class="md:col-span-2 flex flex-wrap gap-3 mt-1">
+                            <button type="submit" class="btn-primary">
+                                <span id="productFormBtn">Add product</span>
+                            </button>
+                            <button type="button" onclick="cancelEdit()" id="cancelEditBtn" class="btn-ghost hidden">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="glass rounded-2xl p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-lg font-bold tracking-tight text-slate-50">All products</h2>
+                        <button onclick="exportData('products')" class="btn-ghost text-violet-200 border-[rgba(196,181,253,0.6)]">Export CSV</button>
+                    </div>
+                    <div id="adminProductsList"></div>
+                    <div id="adminProductsPagination" class="pagination-controls"></div>
+                </div>
+            </div>
+
+            <!-- Orders Tab -->
+            <div id="admin-orders" class="admin-tab hidden">
+                <div class="glass rounded-2xl p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-lg font-bold tracking-tight text-slate-50">Orders</h2>
+                        <button onclick="exportData('orders')" class="btn-ghost text-violet-200 border-[rgba(196,181,253,0.6)]">Export CSV</button>
+                    </div>
+                    <div id="ordersList"></div>
+                    <div id="adminOrdersPagination" class="pagination-controls"></div>
+                </div>
+            </div>
+
+            <!-- Customers Tab -->
+            <div id="admin-customers" class="admin-tab hidden">
+                <div class="glass rounded-2xl p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-lg font-bold tracking-tight text-slate-50">Customers</h2>
+                        <button onclick="exportData('customers')" class="btn-ghost text-violet-200 border-[rgba(196,181,253,0.6)]">Export CSV</button>
+                    </div>
+                    <div id="customersList"></div>
+                    <div id="adminCustomersPagination" class="pagination-controls"></div>
+                </div>
+            </div>
+
+            <!-- Reviews Tab -->
+            <div id="admin-reviews" class="admin-tab hidden">
+                <div class="glass rounded-2xl p-6">
+                    <h2 class="text-lg font-bold tracking-tight text-slate-50 mb-4">Reviews</h2>
+                    <div id="adminReviewsList"></div>
+                    <div id="adminReviewsPagination" class="pagination-controls"></div>
+                </div>
+            </div>
+
+            <!-- Discounts Tab -->
+            <div id="admin-discounts" class="admin-tab hidden">
+                <div class="glass rounded-2xl p-6 mb-6">
+                    <h2 class="text-lg font-bold tracking-tight text-slate-50 mb-4">Create discount code</h2>
+                    <form onsubmit="createDiscount(event)" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 mb-1">Code</label>
+                            <input type="text" id="discountCode" required class="input-field w-full" placeholder="SAVE20">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 mb-1">Percent off</label>
+                            <input type="number" id="discountPercent" required min="1" max="100" class="input-field w-full">
+                        </div>
+                        <div class="flex items-end">
+                            <button type="submit" class="btn-primary w-full justify-center">Create</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="glass rounded-2xl p-6">
+                    <h2 class="text-lg font-bold tracking-tight text-slate-50 mb-4">Active codes</h2>
+                    <div id="discountsList"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRODUCTS SECTION -->
+    <section id="products" class="py-16 px-4">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight text-slate-50 text-center mb-8">Brainrot Marketplace</h2>
+
+            <div class="glass rounded-2xl p-4 mb-8 flex flex-wrap gap-4 items-center">
+                <input type="text" id="searchInput" placeholder="Search items..." class="input-field flex-1 min-w-[200px]" oninput="filterProducts()">
+                <select id="sortFilter" class="input-field" onchange="filterProducts()">
+                    <option value="">Sort by</option>
+                    <option value="price-low">Price: Low to high</option>
+                    <option value="price-high">Price: High to low</option>
+                    <option value="name">Name: A–Z</option>
+                    <option value="rating">Highest rated</option>
+                </select>
+            </div>
+
+            <div id="productsList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+            <div id="productsPagination" class="pagination-controls"></div>
+        </div>
+    </section>
+
+    <!-- WISHLIST -->
+    <section id="wishlistPage" class="hidden pt-28 pb-20 px-4">
+        <div class="max-w-7xl mx-auto">
+            <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-slate-50 mb-8">My wishlist</h1>
+            <div id="wishlistItems" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+        </div>
+    </section>
+
+    <!-- PROFILE -->
+    <section id="profilePage" class="hidden pt-28 pb-20 px-4">
+        <div class="max-w-4xl mx-auto">
+            <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-slate-50 mb-8">My profile</h1>
+            <div class="glass rounded-2xl p-6 mb-6">
+                <h2 class="text-base font-bold tracking-tight text-slate-50 mb-3">Account details</h2>
+                <div id="profileDetails"></div>
+            </div>
+            <div class="glass rounded-2xl p-6">
+                <h2 class="text-base font-bold tracking-tight text-slate-50 mb-3">Order history</h2>
+                <div id="userOrderHistory"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- REVIEWS -->
+    <section id="reviewsPage" class="py-16 px-4">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight text-slate-50 text-center mb-8">Customer reviews</h2>
+            <div id="allReviewsList"></div>
+            <div id="reviewsPagination" class="pagination-controls"></div>
+        </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="py-16 px-4">
+        <div class="max-w-4xl mx-auto glass rounded-2xl p-8 text-center">
+            <h2 class="text-2xl md:text-3xl font-extrabold tracking-tight text-slate-50 mb-4">About Tamed Blox</h2>
+            <p class="text-sm md:text-base text-slate-300 leading-relaxed max-w-2xl mx-auto"></p>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="py-10 px-4 mt-6 border-t border-slate-800 bg-[rgba(3,7,18,0.95)]">
+        <div class="max-w-7xl mx-auto flex flex-col items-center gap-4 text-center text-slate-400 text-sm">
+            <div class="flex items-center gap-2 text-slate-200">
+                <span class="inline-flex h-6 w-6 rounded-xl bg-gradient-to-br from-purple-500 to-fuchsia-500 text-[0.65rem] text-white items-center justify-center font-semibold">TB</span>
+                <span class="font-semibold">Tamed Blox</span>
+            </div>
+            <div class="flex gap-4">
+                <a href="https://www.tiktok.com/@tameddino" target="_blank" class="text-slate-400 hover:text-slate-50 text-xs flex items-center gap-1">
+                    <span>TikTok</span>
+                </a>
+                <a href="https://www.youtube.com/@TamedDino" target="_blank" class="text-slate-400 hover:text-slate-50 text-xs flex items-center gap-1">
+                    <span>YouTube</span>
+                </a>
+            </div>
+            <p class="text-[11px]">© 2024 Tamed Blox. Not affiliated with Roblox Corporation.</p>
+        </div>
+    </footer>
+
+    <!-- CART SIDEBAR -->
+    <div id="cartSidebar" class="fixed right-0 top-0 h-full w-96 max-w-full glass-dark transform translate-x-full transition-transform duration-500 z-50 shadow-2xl overflow-y-auto">
+        <div class="p-6 h-full flex flex-col">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-bold tracking-tight text-slate-50">Your cart</h2>
+                <button onclick="toggleCart()" class="text-2xl text-slate-400">×</button>
+            </div>
+            <div id="cartItems" class="flex-1 overflow-y-auto mb-4"></div>
+            <div class="border-t border-slate-700 pt-4 space-y-3 text-sm">
+                <div class="flex justify-between text-slate-200"><span>Subtotal</span><span id="cartSubtotal">$0.00</span></div>
+                <div id="discountDisplay" class="hidden flex justify-between text-emerald-400"><span>Discount</span><span id="discountAmount">-$0.00</span></div>
+                <div class="flex justify-between text-slate-200"><span>Shipping</span><span id="shippingCost">$0.00</span></div>
+                <div class="flex justify-between items-center pt-2 border-t border-slate-700"><span class="text-base font-bold text-slate-50">Total</span><span id="cartTotal" class="text-lg font-bold text-slate-50">$0.00</span></div>
+                <div class="flex gap-2 pt-1">
+                    <input type="text" id="discountInput" class="input-field flex-1" placeholder="Discount code">
+                    <button onclick="applyDiscount()" class="btn-ghost text-violet-200 border-[rgba(196,181,253,0.6)]">Apply</button>
+                </div>
+                <button onclick="checkout()" class="w-full btn-primary justify-center mt-2">Checkout</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- LOGIN MODAL -->
+    <div id="loginModal" class="fixed inset-0 z-[60] hidden">
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="closeLogin()"></div>
+        <div class="relative h-full flex items-center justify-center p-4">
+            <div class="glass rounded-2xl p-6 md:p-8 max-w-md w-full">
+                <h2 class="text-xl md:text-2xl font-bold tracking-tight text-slate-50 mb-4 text-center">Sign in</h2>
+                <form onsubmit="handleLogin(event)" class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1">Email</label>
+                        <input type="email" id="loginEmail" required class="input-field w-full">
+                        <p id="loginEmailError" class="text-[11px] text-rose-400 mt-1 h-3"></p>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1">Password</label>
+                        <input type="password" id="loginPassword" required class="input-field w-full">
+                        <p id="loginPasswordError" class="text-[11px] text-rose-400 mt-1 h-3"></p>
+                    </div>
+                    <button type="submit" class="w-full btn-primary justify-center">Continue</button>
+                </form>
+                <div class="mt-4 text-center text-xs text-slate-400">
+                    <span>New here?</span>
+                    <button onclick="switchToSignup()" class="text-violet-200 font-semibold ml-1">Create an account</button>
+                </div>
+                <button onclick="closeLogin()" class="absolute top-4 right-4 text-xl text-slate-400">×</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SIGNUP MODAL -->
+    <div id="signupModal" class="fixed inset-0 z-[60] hidden">
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="closeSignup()"></div>
+        <div class="relative h-full flex items-center justify-center p-4">
+            <div class="glass rounded-2xl p-6 md:p-8 max-w-md w-full">
+                <h2 class="text-xl md:text-2xl font-bold tracking-tight text-slate-50 mb-4 text-center">Create account</h2>
+                <form onsubmit="handleSignup(event)" class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1">Username</label>
+                        <div class="flex gap-2">
+                            <input type="text" id="signupName" required minlength="3" class="input-field flex-1">
+                            <button type="button" onclick="generateRandomUsername()" class="btn-ghost text-xs">Random</button>
+                        </div>
+                        <p id="signupNameError" class="text-[11px] text-rose-400 mt-1 h-3"></p>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1">Email</label>
+                        <input type="email" id="signupEmail" required class="input-field w-full">
+                        <p id="signupEmailError" class="text-[11px] text-rose-400 mt-1 h-3"></p>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1">Password</label>
+                        <input type="password" id="signupPassword" required class="input-field w-full" oninput="checkPasswordStrength()">
+                        <div id="passwordStrength" class="text-[11px] mt-1 h-3"></div>
+                        <p id="signupPasswordError" class="text-[11px] text-rose-400 mt-1 h-3"></p>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1">Confirm password</label>
+                        <input type="password" id="signupConfirmPassword" required class="input-field w-full" oninput="checkPasswordMatch()">
+                        <p id="signupConfirmPasswordError" class="text-[11px] text-rose-400 mt-1 h-3"></p>
+                    </div>
+                    <button type="submit" class="w-full btn-primary justify-center">Create account</button>
+                </form>
+                <div class="mt-4 text-center text-xs text-slate-400">
+                    <span>Already have an account?</span>
+                    <button onclick="switchToLogin()" class="text-violet-200 font-semibold ml-1">Sign in</button>
+                </div>
+                <button onclick="closeSignup()" class="absolute top-4 right-4 text-xl text-slate-400">×</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PRODUCT DETAIL MODAL -->
+    <div id="productModal" class="fixed inset-0 z-[60] hidden">
+        <div class="absolute inset-0 bg-slate-900/70 backdrop-blur-sm" onclick="closeProductModal()"></div>
+        <div class="relative h-full flex items-center justify-center p-4">
+            <div class="glass rounded-2xl p-6 md:p-8 max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+                <div id="productModalContent"></div>
+                <button onclick="closeProductModal()" class="absolute top-4 right-4 text-xl text-slate-400">×</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST & LOADER -->
+    <div id="toast-container" class="toast-container"></div>
+    <div id="loader-overlay" class="loader-overlay hidden"><div class="loader"></div></div>
+
+    <script>
+        /*
+         * SECURITY: XSS Protection
+         * All user-generated content MUST be sanitized before insertion.
+         * - Use escapeHtml() function for text content in templates
+         * - Use textContent instead of innerHTML when possible
+         * - Never trust user input in innerHTML
+         * Server-side validation is also required.
+         */
+        // --- GLOBAL STATE ---
+        const API_BASE_URL = 'https://website-5eml.onrender.com/api';
+        
+        let cart = [], products = [], currentUser = null, wishlist = [], reviews = [], orders = [], customers = [], discounts = [], messages = [];
+        let appliedDiscount = null, revenueChartInstance = null;
+        // ADMIN_EMAIL removed for security - admin status is now determined server-side only
+
+
+        let isGuestCheckout = false;
+        let guestEmail = '';
+
+        const loginAttempts = {};
+        const RATE_LIMIT_DELAY = 5000;
+        const SESSION_TIMEOUT = 30 * 60 * 1000;
+        let sessionTimer = null;
+
+        const paginationConfig = {
+            products: { currentPage: 1, itemsPerPage: 6 },
+            reviews: { currentPage: 1, itemsPerPage: 5 },
+            adminProducts: { currentPage: 1, itemsPerPage: 5 },
+            adminOrders: { currentPage: 1, itemsPerPage: 5 },
+            adminCustomers: { currentPage: 1, itemsPerPage: 5 },
+            adminReviews: { currentPage: 1, itemsPerPage: 5 },
+        };
+
+        async function hashPassword(password) {
+            const encoder = new TextEncoder();
+            const data = encoder.encode(password);
+            const hash = await crypto.subtle.digest('SHA-256', data);
+            return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+
+        function checkLoginCooldown(email) {
+            const now = Date.now();
+            if (!loginAttempts[email]) loginAttempts[email] = { lastAttempt: 0 };
+            const diff = now - loginAttempts[email].lastAttempt;
+            if (diff < RATE_LIMIT_DELAY) {
+                const secondsRemaining = Math.ceil((RATE_LIMIT_DELAY - diff) / 1000);
+                return { canAttempt: false, secondsRemaining };
+            }
+            return { canAttempt: true };
+        }
+
+        function recordLoginAttempt(email) {
+            const now = Date.now();
+            if (!loginAttempts[email]) loginAttempts[email] = { lastAttempt: 0 };
+            loginAttempts[email].lastAttempt = now;
+        }
+
+        function startSessionTimer() {
+            if (sessionTimer) clearTimeout(sessionTimer);
+            sessionTimer = setTimeout(() => {
+                if (currentUser) {
+                    showToast('Your session expired. Please log in again.', 'error');
+                    logout();
+                }
+            }, SESSION_TIMEOUT);
+        }
+
+        function resetSessionTimer() {
+            if (currentUser) startSessionTimer();
+        }
+
+        function sanitizeInput(input) {
+            const div = document.createElement('div');
+            div.textContent = input;
+            return div.innerHTML;
+        }
+
+        function escapeHtml(text) {
+            const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
+            return text.replace(/[&<>"']/g, m => map[m]);
+        }
+
+        function sanitizeUrl(url) {
+            if (!url) return '/placeholder.png';
+            
+            // Convert to string and trim
+            const urlStr = String(url).trim();
+            
+            // Block dangerous protocols
+            // Note: Return value should be escaped with escapeHtml() when used in templates
+            const lowerUrl = urlStr.toLowerCase();
+            if (lowerUrl.startsWith('javascript:') || 
+                lowerUrl.startsWith('data:') || 
+                lowerUrl.startsWith('vbscript:') || 
+                lowerUrl.startsWith('file:')) {
+                console.warn('Blocked potentially malicious URL:', url);
+                return '/placeholder.png';
+            }
+            
+            // Allow only http:// or https:// or relative paths
+            if (!lowerUrl.startsWith('http://') && 
+                !lowerUrl.startsWith('https://') && 
+                !lowerUrl.startsWith('/') && 
+                !lowerUrl.startsWith('./')) {
+                // If it doesn't start with a protocol, treat as relative
+                return '/' + urlStr;
+            }
+            
+            return urlStr;
+        }
+
+
+        // Utility function for making authenticated API requests with JWT token
+        async function authenticatedFetch(url, options = {}) {
+            const token = localStorage.getItem('authToken');
+            
+            if (!token) {
+                throw new Error('No authentication token found. Please log in.');
+            }
+            
+            // Add Authorization header with Bearer token
+            const headers = {
+                ...options.headers,
+                'Authorization': `Bearer ${token}`
+            };
+            
+            // Only set Content-Type for JSON bodies, not for FormData
+            if (options.body && !(options.body instanceof FormData)) {
+                headers['Content-Type'] = 'application/json';
+            }
+            
+            const response = await fetch(url, {
+                ...options,
+                headers
+            });
+            
+            // If token is invalid or expired (401), logout user
+            if (response.status === 401) {
+                showToast('Session expired. Please log in again.', 'error');
+                logout();
+                throw new Error('Unauthorized - session expired');
+            }
+            
+            return response;
+        }
+
+        // Check if user has valid auth token
+        function isAuthenticated() {
+            return localStorage.getItem('authToken') !== null;
+        }
+
+        // Get auth token
+        function getAuthToken() {
+            return localStorage.getItem('authToken');
+        }
+
+        // ============================================
+        // BACKEND API FUNCTIONS
+        // ============================================
+
+        // --- CART API ---
+        async function loadCart() {
+            try {
+                const response = await authenticatedFetch(`${API_BASE_URL}/cart`);
+                const data = await response.json();
+                cart = data.cart?.items || [];
+                updateCart();
+            } catch (error) {
+                console.error('Error loading cart:', error);
+                cart = [];
+            }
+        }
+
+        async function addToCartAPI(productId, quantity = 1) {
+            try {
+                const response = await authenticatedFetch(`${API_BASE_URL}/cart/add`, {
+                    method: 'POST',
+                    body: JSON.stringify({ productId, quantity })
+                });
+                const data = await response.json();
+                if (response.ok) {
+                    cart = data.cart.items || [];
+                    updateCart();
+                    return true;
+                } else {
+                    showToast(data.message || 'Failed to add to cart', 'error');
+                    return false;
+                }
+            } catch (error) {
+                console.error('Error adding to cart:', error);
+                showToast('Error adding to cart', 'error');
+                return false;
+            }
+        }
+
+        async function updateCartAPI(productId, quantity) {
+            try {
+                const response = await authenticatedFetch(`${API_BASE_URL}/cart/update`, {
+                    method: 'PUT',
+                    body: JSON.stringify({ productId, quantity })
+                });
+                const data = await response.json();
+                if (response.ok) {
+                    cart = data.cart.items || [];
+                    updateCart();
+                    return true;
+                } else {
+                    showToast(data.message || 'Failed to update cart', 'error');
+                    return false;
+                }
+            } catch (error) {
+                console.error('Error updating cart:', error);
+                showToast('Error updating cart', 'error');
+                return false;
+            }
+        }
+
+        async function removeFromCartAPI(productId) {
+            try {
+                const response = await authenticatedFetch(`${API_BASE_URL}/cart/remove`, {
+                    method: 'DELETE',
+                    body: JSON.stringify({ productId })
+                });
+                const data = await response.json();
+                if (response.ok) {
+                    cart = data.cart.items || [];
+                    updateCart();
+                    return true;
+                } else {
+                    showToast(data.message || 'Failed to remove from cart', 'error');
+                    return false;
+                }
+            } catch (error) {
+                console.error('Error removing from cart:', error);
+                showToast('Error removing from cart', 'error');
+                return false;
+            }
+        }
+
+        // --- WISHLIST API ---
+        async function loadWishlist() {
+            try {
+                const response = await authenticatedFetch(`${API_BASE_URL}/wishlist`);
+                const data = await response.json();
+                wishlist = data.wishlist?.items || [];
+                updateWishlistCount();
+            } catch (error) {
+                console.error('Error loading wishlist:', error);
+                wishlist = [];
+            }
+        }
+
+        async function addToWishlistAPI(productId) {
+            try {
+                const response = await authenticatedFetch(`${API_BASE_URL}/wishlist/add`, {
+                    method: 'POST',
+                    body: JSON.stringify({ productId })
+                });
+                const data = await response.json();
+                if (response.ok) {
+                    wishlist = data.wishlist.items || [];
+                    updateWishlistCount();
+                    return true;
+                } else {
+                    showToast(data.message || 'Failed to add to wishlist', 'error');
+                    return false;
+                }
+            } catch (error) {
+                console.error('Error adding to wishlist:', error);
+                showToast('Error adding to wishlist', 'error');
+                return false;
+            }
+        }
+
+        async function removeFromWishlistAPI(productId) {
+            try {
+                const response = await authenticatedFetch(`${API_BASE_URL}/wishlist/remove`, {
+                    method: 'DELETE',
+                    body: JSON.stringify({ productId })
+                });
+                const data = await response.json();
+                if (response.ok) {
+                    wishlist = data.wishlist.items || [];
+                    updateWishlistCount();
+                    return true;
+                } else {
+                    showToast(data.message || 'Failed to remove from wishlist', 'error');
+                    return false;
+                }
+            } catch (error) {
+                console.error('Error removing from wishlist:', error);
+                showToast('Error removing from wishlist', 'error');
+                return false;
+            }
+        }
+
+        // --- ORDERS API ---
+        async function loadOrders() {
+            try {
+                const response = await authenticatedFetch(`${API_BASE_URL}/orders`);
+                const data = await response.json();
+                orders = data.orders || [];
+            } catch (error) {
+                console.error('Error loading orders:', error);
+                orders = [];
+            }
+        }
+
+        async function createOrderAPI(orderData) {
+            try {
+                const response = await authenticatedFetch(`${API_BASE_URL}/orders`, {
+                    method: 'POST',
+                    body: JSON.stringify(orderData)
+                });
+                const data = await response.json();
+                if (response.ok) {
+                    showToast('Order placed successfully!', 'success');
+                    await loadOrders(); // Reload orders
+                    await loadCart(); // Clear cart
+                    return data.order;
+                } else {
+                    showToast(data.message || 'Failed to create order', 'error');
+                    return null;
+                }
+            } catch (error) {
+                console.error('Error creating order:', error);
+                showToast('Error creating order', 'error');
+                return null;
+            }
+        }
+
+        async function loadAdminOrders() {
+            try {
+                const response = await authenticatedFetch(`${API_BASE_URL}/admin/orders`);
+                const data = await response.json();
+                orders = data.orders || [];
+                renderOrders();
+            } catch (error) {
+                console.error('Error loading admin orders:', error);
+                orders = [];
+            }
+        }
+
+        async function updateOrderStatusAPI(orderId, status) {
+            try {
+                const response = await authenticatedFetch(`${API_BASE_URL}/orders/${orderId}`, {
+                    method: 'PUT',
+                    body: JSON.stringify({ status })
+                });
+                const data = await response.json();
+                if (response.ok) {
+                    showToast(`Order updated to ${status}`, 'success');
+                    await loadAdminOrders(); // Reload orders
+                    return true;
+                } else {
+                    showToast(data.message || 'Failed to update order', 'error');
+                    return false;
+                }
+            } catch (error) {
+                console.error('Error updating order:', error);
+                showToast('Error updating order', 'error');
+                return false;
+            }
+        }
+
+        // --- DISCOUNTS API ---
+        async function loadDiscounts() {
+            try {
+                const response = await authenticatedFetch(`${API_BASE_URL}/admin/discounts`);
+                const data = await response.json();
+                discounts = data.discounts || [];
+                if (currentUser && currentUser.isAdmin) {
+                    renderDiscounts();
+                }
+            } catch (error) {
+                console.error('Error loading discounts:', error);
+                discounts = [];
+            }
+        }
+
+        async function createDiscountAPI(code, percent) {
+            try {
+                const response = await authenticatedFetch(`${API_BASE_URL}/admin/discounts`, {
+                    method: 'POST',
+                    body: JSON.stringify({ code, percent })
+                });
+                const data = await response.json();
+                if (response.ok) {
+                    showToast('Discount code created!', 'success');
+                    await loadDiscounts();
+                    return true;
+                } else {
+                    showToast(data.message || 'Failed to create discount', 'error');
+                    return false;
+                }
+            } catch (error) {
+                console.error('Error creating discount:', error);
+                showToast('Error creating discount', 'error');
+                return false;
+            }
+        }
+
+        async function deleteDiscountAPI(discountId) {
+            try {
+                const response = await authenticatedFetch(`${API_BASE_URL}/admin/discounts/${discountId}`, {
+                    method: 'DELETE'
+                });
+                const data = await response.json();
+                if (response.ok) {
+                    showToast('Discount deleted!', 'success');
+                    await loadDiscounts();
+                    return true;
+                } else {
+                    showToast(data.message || 'Failed to delete discount', 'error');
+                    return false;
+                }
+            } catch (error) {
+                console.error('Error deleting discount:', error);
+                showToast('Error deleting discount', 'error');
+                return false;
+            }
+        }
+
+        // --- CUSTOMERS API ---
+        async function loadCustomers() {
+            try {
+                const response = await authenticatedFetch(`${API_BASE_URL}/admin/customers`);
+                const data = await response.json();
+                customers = data.customers || [];
+                renderCustomers();
+            } catch (error) {
+                console.error('Error loading customers:', error);
+                customers = [];
+            }
+        }
+
+        async function getCustomerById(customerId) {
+            try {
+                const response = await authenticatedFetch(`${API_BASE_URL}/admin/customers/${customerId}`);
+                const data = await response.json();
+                return data.customer;
+            } catch (error) {
+                console.error('Error loading customer:', error);
+                return null;
+            }
+        }
+
+        // --- PRODUCTS API ---
+        async function loadProducts() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/products`);
+                const data = await response.json();
+                products = data.products || [];
+                filterProducts();
+                renderHeroFeatured();
+            } catch (error) {
+                console.error('Error loading products:', error);
+                products = [];
+            }
+        }
+
+        async function createProductAPI(productData) {
+            try {
+                const response = await authenticatedFetch(`${API_BASE_URL}/products`, {
+                    method: 'POST',
+                    body: JSON.stringify(productData)
+                });
+                const data = await response.json();
+                if (response.ok) {
+                    showToast('Product added successfully!', 'success');
+                    await loadProducts(); // Reload products
+                    return true;
+                } else {
+                    showToast(data.message || 'Failed to add product', 'error');
+                    return false;
+                }
+            } catch (error) {
+                console.error('Error creating product:', error);
+                showToast('Error creating product', 'error');
+                return false;
+            }
+        }
+
+        async function updateProductAPI(productId, productData) {
+            try {
+                const response = await authenticatedFetch(`${API_BASE_URL}/products/${productId}`, {
+                    method: 'PUT',
+                    body: JSON.stringify(productData)
+                });
+                const data = await response.json();
+                if (response.ok) {
+                    showToast('Product updated successfully!', 'success');
+                    await loadProducts(); // Reload products
+                    return true;
+                } else {
+                    showToast(data.message || 'Failed to update product', 'error');
+                    return false;
+                }
+            } catch (error) {
+                console.error('Error updating product:', error);
+                showToast('Error updating product', 'error');
+                return false;
+            }
+        }
+
+        async function deleteProductAPI(productId) {
+            try {
+                const response = await authenticatedFetch(`${API_BASE_URL}/products/${productId}`, {
+                    method: 'DELETE'
+                });
+                const data = await response.json();
+                if (response.ok) {
+                    showToast('Product deleted!', 'success');
+                    await loadProducts(); // Reload products
+                    return true;
+                } else {
+                    showToast(data.message || 'Failed to delete product', 'error');
+                    return false;
+                }
+            } catch (error) {
+                console.error('Error deleting product:', error);
+                showToast('Error deleting product', 'error');
+                return false;
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            hideLoader();
+            loadData();
+            initializeSampleData();
+
+            const savedUser = localStorage.getItem('currentUser');
+            const lastActivity = localStorage.getItem('lastActivity');
+
+            if (savedUser && lastActivity) {
+                const diff = Date.now() - parseInt(lastActivity);
+                if (diff > SESSION_TIMEOUT) {
+                    localStorage.removeItem('currentUser');
+                    localStorage.removeItem('lastActivity');
+                    updateUIForLoggedOutUser();
+                } else {
+                    currentUser = JSON.parse(savedUser);
+                    updateUIForLoggedInUser();
+                    startSessionTimer();
+                }
+            } else {
+                updateUIForLoggedOutUser();
+            }
+
+            renderAll();
+            updateWishlistCount();
+            renderHeroFeatured();
+
+            document.addEventListener('click', resetSessionTimer);
+            document.addEventListener('keypress', resetSessionTimer);
+        });
+
+        async function loadData() {
+            // Load data from backend instead of localStorage
+            try {
+                // Load products (public - no auth needed)
+                await loadProducts();
+                
+                // Only load cart, wishlist, orders if user is logged in
+                if (isAuthenticated()) {
+                    await Promise.all([
+                        loadCart(),
+                        loadWishlist(),
+                        loadOrders(),
+                        loadDiscounts() // Admin will filter on backend
+                    ]);
+                }
+            } catch (error) {
+                console.error('Error loading data:', error);
+                showToast('Error loading data from server', 'error');
+            }
+        }
+
+        function saveData() {
+            // This function is no longer needed as all saves go directly to backend
+            // Kept as empty function to prevent errors in existing code
+            console.log('saveData() called - data now saved via API calls');
+        }
+
+        function initializeSampleData() {
+            if (!Array.isArray(products)) products = [];
+
+            if (!Array.isArray(reviews) || reviews.length === 0) {
+                reviews = [
+                    {
+                        id: Date.now() - 300000,
+                        productId: null,
+                        userName: 'QuickFalcon',
+                        rating: 5,
+                        review: 'Automated review after 7 days',
+                        date: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString()
+                    },
+                    {
+                        id: Date.now() - 200000,
+                        productId: null,
+                        userName: 'SilentPanda',
+                        rating: 5,
+                        review: 'Automated review after 7 days',
+                        date: new Date(Date.now() - 12 * 24 * 60 * 60 * 1000).toISOString()
+                    },
+                    {
+                        id: Date.now() - 100000,
+                        productId: null,
+                        userName: 'BraveWolf',
+                        rating: 4,
+                        review: 'Automated review after 7 days',
+                        date: new Date(Date.now() - 20 * 24 * 60 * 60 * 1000).toISOString()
+                    }
+                ];
+            }
+
+            saveData();
+        }
+
+        function renderAll() {
+            filterProducts();
+            renderReviews();
+            if (currentUser && currentUser.isAdmin) renderStats();
+        }
+
+        // NAV / HERO
+        function goHome() {
+            hideAllSections();
+            document.getElementById('heroSection').classList.remove('hidden');
+            document.getElementById('products').classList.remove('hidden');
+            document.getElementById('about').classList.remove('hidden');
+            document.getElementById('reviewsPage').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function showMainSectionsOnly() {
+            hideAllSections();
+            document.getElementById('heroSection').classList.remove('hidden');
+            document.getElementById('products').classList.remove('hidden');
+            document.getElementById('about').classList.remove('hidden');
+            document.getElementById('reviewsPage').classList.remove('hidden');
+        }
+
+        function handleNavToProducts(event) {
+            if (event) event.preventDefault();
+            showMainSectionsOnly();
+            const el = document.getElementById('products');
+            if (el) el.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function handleSmoothScroll(event, targetId) {
+            if (event) event.preventDefault();
+            const el = document.getElementById(targetId);
+            if (!el) return;
+            if (targetId === 'products' || targetId === 'reviewsPage' || targetId === 'about') {
+                showMainSectionsOnly();
+            }
+            el.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function hideAllSections() {
+            ['heroSection', 'products', 'about', 'adminDashboard', 'wishlistPage', 'profilePage', 'reviewsPage'].forEach(id => {
+                document.getElementById(id).classList.add('hidden');
+            });
+        }
+
+        function scrollToProducts() {
+            const el = document.getElementById('products');
+            if (!el) return;
+            showMainSectionsOnly();
+            el.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function toggleMobileMenu() {
+            document.getElementById('mobileMenu').classList.toggle('hidden');
+        }
+
+        function renderHeroFeatured() {
+            const container = document.getElementById('heroFeaturedItems');
+            if (!container || products.length === 0) {
+                const p = document.createElement('p');
+                p.className = 'text-xs text-slate-400';
+                p.textContent = 'No featured items yet. Add products in the admin panel.';
+                container.innerHTML = '';
+                container.appendChild(p);
+                return;
+            }
+            container.innerHTML = '';
+            const featured = products.slice(0, 3);
+            featured.forEach(p => {
+                const row = document.createElement('div');
+                row.className = 'flex items-center justify-between py-2.5 border-b border-slate-800 last:border-0';
+
+                const left = document.createElement('div');
+                left.className = 'flex items-center gap-3';
+                
+                const imgWrap = document.createElement('div');
+                imgWrap.className = 'h-10 w-10 rounded-xl overflow-hidden bg-slate-900';
+                
+                const img = document.createElement('img');
+                img.alt = p.name || 'product';
+                img.className = 'w-full h-full object-cover';
+                img.src = sanitizeUrl(p.image);
+                imgWrap.appendChild(img);
+
+                const meta = document.createElement('div');
+                const title = document.createElement('p');
+                title.className = 'text-xs font-semibold text-slate-50 line-clamp-1';
+                title.textContent = p.name || '';
+                
+                const desc = document.createElement('p');
+                desc.className = 'text-[11px] text-slate-400 line-clamp-1';
+                desc.textContent = p.description || '';
+
+                meta.appendChild(title);
+                meta.appendChild(desc);
+                left.appendChild(imgWrap);
+                left.appendChild(meta);
+
+                const right = document.createElement('div');
+                right.className = 'text-right';
+                
+                const price = document.createElement('p');
+                price.className = 'text-sm font-bold text-slate-50';
+                price.textContent = `$${(p.price || 0).toFixed(2)}`;
+                
+                const addBtn = document.createElement('button');
+                addBtn.className = 'text-[11px] text-violet-200';
+                addBtn.textContent = 'Add';
+                addBtn.onclick = (e) => { e.stopPropagation(); addToCart(p.id); };
+
+                right.appendChild(price);
+                right.appendChild(addBtn);
+
+                row.appendChild(left);
+                row.appendChild(right);
+                container.appendChild(row);
+            });
+        }
+
+        // AUTH
+        function openLogin() { clearAuthErrors(); document.getElementById('loginModal').classList.remove('hidden'); }
+        function closeLogin() { document.getElementById('loginModal').classList.add('hidden'); }
+        function openSignup() { clearAuthErrors(); document.getElementById('signupModal').classList.remove('hidden'); }
+        function closeSignup() { document.getElementById('signupModal').classList.add('hidden'); }
+
+        function switchToSignup() { closeLogin(); setTimeout(openSignup, 150); }
+        function switchToLogin() { closeSignup(); setTimeout(openLogin, 150); }
+
+        async function handleLogin(event) {
+            event.preventDefault();
+            clearAuthErrors();
+            const email = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value;
+
+            // Basic validation
+            if (!email || !password) {
+                showToast('Email and password are required.', 'error');
+                return;
+            }
+
+            const cooldown = checkLoginCooldown(email);
+            if (!cooldown.canAttempt) {
+                showToast(`Wait ${cooldown.secondsRemaining}s before trying again.`, 'error');
+                document.getElementById('loginEmailError').textContent = `Please wait ${cooldown.secondsRemaining}s...`;
+                return;
+            }
+            recordLoginAttempt(email);
+
+            try {
+                showLoader();
+                
+                // Send POST request to backend
+                const response = await fetch(`${API_BASE_URL}/auth/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        password: password
+                    })
+                });
+
+                hideLoader();
+                
+                // Parse response
+                const data = await response.json();
+
+                if (response.ok) {
+                    // Login successful
+                    if (data.token) {
+                        // Store JWT token in localStorage
+                        localStorage.setItem('authToken', data.token);
+                        
+                        // Store user info
+                        const username = data.username || data.name || email.split('@')[0];
+                        const isAdmin = data.isAdmin || data.role === 'admin';
+                        
+                        currentUser = { 
+                            name: username, 
+                            email: email, 
+                            isAdmin: isAdmin,
+                            userId: data.userId || data.id
+                        };
+                        
+                        localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                        localStorage.setItem('lastActivity', Date.now().toString());
+                        
+                        closeLogin();
+                        updateUIForLoggedInUser();
+                        startSessionTimer();
+                        showToast('Welcome back, ' + username + '!', 'success');
+                        
+                        // Load user data from backend after login
+                        loadData();
+                        
+                        // Clear form
+                        document.getElementById('loginEmail').value = '';
+                        document.getElementById('loginPassword').value = '';
+                    } else {
+                        showToast('Login successful but no token received. Please try again.', 'error');
+                    }
+                } else {
+                    // Login failed
+                    const errorMsg = data.message || data.error || 'Invalid credentials';
+                    document.getElementById('loginEmailError').textContent = errorMsg;
+                    document.getElementById('loginEmail').classList.add('error');
+                    showToast('Login failed: ' + errorMsg, 'error');
+                }
+
+            } catch (error) {
+                hideLoader();
+                console.error('Login error:', error);
+                showToast('Login error: ' + error.message + '. Check if backend is running.', 'error');
+                document.getElementById('loginEmailError').textContent = 'Connection failed. Check backend server.';
+            }
+        }
+
+        async function handleSignup(event) {
+            event.preventDefault();
+            clearAuthErrors();
+            const name = sanitizeInput(document.getElementById('signupName').value.trim());
+            const email = sanitizeInput(document.getElementById('signupEmail').value.trim());
+            const password = document.getElementById('signupPassword').value;
+            const confirmPassword = document.getElementById('signupConfirmPassword').value;
+
+            let hasError = false;
+
+            // Client-side validation
+            if (name.length < 3) {
+                document.getElementById('signupNameError').textContent = 'At least 3 characters.';
+                document.getElementById('signupName').classList.add('error');
+                hasError = true;
+            }
+
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                document.getElementById('signupEmailError').textContent = 'Enter a valid email.';
+                document.getElementById('signupEmail').classList.add('error');
+                hasError = true;
+            }
+
+            if (password.length < 6) {
+                document.getElementById('signupPasswordError').textContent = 'Min 6 characters.';
+                document.getElementById('signupPassword').classList.add('error');
+                hasError = true;
+            }
+
+            if (password !== confirmPassword) {
+                document.getElementById('signupConfirmPasswordError').textContent = 'Passwords do not match.';
+                document.getElementById('signupConfirmPassword').classList.add('error');
+                hasError = true;
+            }
+
+            if (hasError) {
+                showToast('Fix the errors to continue.', 'error');
+                return;
+            }
+
+            try {
+                showLoader();
+
+                // Send POST request to backend
+                const response = await fetch(`${API_BASE_URL}/auth/register`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        username: name,
+                        email: email,
+                        password: password
+                    })
+                });
+
+                hideLoader();
+
+                // Parse response
+                const data = await response.json();
+
+                if (response.ok) {
+                    // Registration successful
+                    showToast('Account created successfully!', 'success');
+                    
+                    // If backend returns token, auto-login
+                    if (data.token) {
+                        localStorage.setItem('authToken', data.token);
+                        
+                        const username = data.username || name;
+                        const isAdmin = data.isAdmin || data.role === 'admin';
+                        
+                        currentUser = {
+                            name: username,
+                            email: email,
+                            isAdmin: isAdmin,
+                            userId: data.userId || data.id
+                        };
+                        
+                        localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                        localStorage.setItem('lastActivity', Date.now().toString());
+                        
+                        closeSignup();
+                        updateUIForLoggedInUser();
+                        startSessionTimer();
+                        showToast('Welcome, ' + username + '!', 'success');
+                        
+                        // Load user data from backend after signup
+                        loadData();
+                        
+                        // Clear form
+                        document.getElementById('signupName').value = '';
+                        document.getElementById('signupEmail').value = '';
+                        document.getElementById('signupPassword').value = '';
+                        document.getElementById('signupConfirmPassword').value = '';
+                    } else {
+                        // Registration successful but no auto-login
+                        closeSignup();
+                        showToast('Account created! Please log in.', 'success');
+                        setTimeout(openLogin, 300);
+                        
+                        // Clear form
+                        document.getElementById('signupName').value = '';
+                        document.getElementById('signupEmail').value = '';
+                        document.getElementById('signupPassword').value = '';
+                        document.getElementById('signupConfirmPassword').value = '';
+                    }
+                } else {
+                    // Registration failed
+                    const errorMsg = data.message || data.error || 'Registration failed';
+                    
+                    // Try to map error to specific field
+                    if (errorMsg.toLowerCase().includes('email')) {
+                        document.getElementById('signupEmailError').textContent = errorMsg;
+                        document.getElementById('signupEmail').classList.add('error');
+                    } else if (errorMsg.toLowerCase().includes('username') || errorMsg.toLowerCase().includes('name')) {
+                        document.getElementById('signupNameError').textContent = errorMsg;
+                        document.getElementById('signupName').classList.add('error');
+                    } else if (errorMsg.toLowerCase().includes('password')) {
+                        document.getElementById('signupPasswordError').textContent = errorMsg;
+                        document.getElementById('signupPassword').classList.add('error');
+                    }
+                    
+                    showToast('Registration failed: ' + errorMsg, 'error');
+                }
+
+            } catch (error) {
+                hideLoader();
+                console.error('Registration error:', error);
+                showToast('Registration error: ' + error.message + '. Check if backend is running.', 'error');
+                document.getElementById('signupEmailError').textContent = 'Connection failed. Check backend server.';
+            }
+        }
+
+        function logout() {
+            currentUser = null;
+            localStorage.removeItem('currentUser');
+            localStorage.removeItem('lastActivity');
+            localStorage.removeItem('authToken'); // Clear JWT token
+            if (sessionTimer) { clearTimeout(sessionTimer); sessionTimer = null; }
+            goHome();
+            updateUIForLoggedOutUser();
+            showToast('Logged out.', 'success');
+        }
+
+        function updateUIForLoggedInUser() {
+            const loginBtn = document.getElementById('loginBtn');
+            const mobileLoginBtn = document.getElementById('mobileLoginBtn');
+            if (!loginBtn || !mobileLoginBtn) return;
+            loginBtn.textContent = currentUser.isAdmin ? 'Dashboard' : 'Profile';
+            loginBtn.onclick = currentUser.isAdmin ? showAdminDashboard : showProfile;
+            mobileLoginBtn.textContent = loginBtn.textContent;
+            mobileLoginBtn.onclick = loginBtn.onclick;
+            if (currentUser.isAdmin) showAdminDashboard();
+        }
+
+        function updateUIForLoggedOutUser() {
+            const loginBtn = document.getElementById('loginBtn');
+            const mobileLoginBtn = document.getElementById('mobileLoginBtn');
+            if (!loginBtn || !mobileLoginBtn) return;
+            loginBtn.textContent = 'Login';
+            loginBtn.onclick = openLogin;
+            mobileLoginBtn.textContent = 'Login';
+            mobileLoginBtn.onclick = openLogin;
+        }
+
+        function clearAuthErrors() {
+            document.querySelectorAll('[id$="Error"]').forEach(el => el.textContent = '');
+            document.querySelectorAll('.input-field').forEach(el => el.classList.remove('error'));
+        }
+
+        function generateRandomUsername() {
+            const adjectives = ['Happy', 'Silent', 'Brave', 'Swift', 'Calm', 'Bright', 'Bold', 'Quick', 'Lucky', 'Noble'];
+            const nouns = ['Panda', 'Tiger', 'Eagle', 'Wolf', 'Bear', 'Fox', 'Lion', 'Hawk', 'Raven', 'Deer'];
+            const numbers = Math.floor(Math.random() * 9000) + 1000;
+            document.getElementById('signupName').value = adjectives[Math.floor(Math.random() * adjectives.length)] + nouns[Math.floor(Math.random() * nouns.length)] + numbers;
+        }
+
+        function checkPasswordStrength() {
+            const password = document.getElementById('signupPassword').value;
+            const el = document.getElementById('passwordStrength');
+            if (!password) { el.textContent = ''; return; }
+            let strength = 0;
+            if (password.length >= 8) strength++;
+            if (/[A-Z]/.test(password)) strength++;
+            if (/[a-z]/.test(password)) strength++;
+            if (/[0-9]/.test(password)) strength++;
+            if (/[^A-Za-z0-9]/.test(password)) strength++;
+            if (strength <= 2) el.textContent = 'Weak password';
+            else if (strength === 3) el.textContent = 'Medium password';
+            else el.textContent = 'Strong password';
+        }
+
+        function checkPasswordMatch() {
+            const password = document.getElementById('signupPassword').value;
+            const confirmPassword = document.getElementById('signupConfirmPassword').value;
+            const errorEl = document.getElementById('signupConfirmPasswordError');
+            const input = document.getElementById('signupConfirmPassword');
+            if (!confirmPassword) { errorEl.textContent = ''; input.classList.remove('error'); return; }
+            if (password !== confirmPassword) {
+                errorEl.textContent = 'Passwords do not match';
+                input.classList.add('error');
+            } else {
+                errorEl.textContent = '';
+                input.classList.remove('error');
+            }
+        }
+
+        // PROFILE
+        async function showProfile() {
+            if (!currentUser) {
+                showToast('Login to view profile.', 'error');
+                return;
+            }
+            hideAllSections();
+            document.getElementById('profilePage').classList.remove('hidden');
+            document.getElementById('reviewsPage').classList.remove('hidden');
+            document.getElementById('about').classList.remove('hidden');
+            
+            // Load user's orders from backend
+            await loadOrders();
+            renderProfile();
+        }
+
+        // XSS-SAFE: Uses escapeHtml() for user data
+        function renderProfile() {
+            // Display user info from currentUser
+            document.getElementById('profileDetails').innerHTML = `
+                <div class="space-y-2 text-sm">
+                    <div><span class="font-bold text-slate-100">Name:</span> <span class="text-slate-300">${escapeHtml(currentUser.name || "")}</span></div>
+                    <div><span class="font-bold text-slate-100">Email:</span> <span class="text-slate-300">${escapeHtml(currentUser.email || "")}</span></div>
+                    <div><span class="font-bold text-slate-100">Total orders:</span> <span class="text-slate-300">${orders.length}</span></div>
+                    <div><span class="font-bold text-slate-100">Total spent:</span> <span class="text-slate-300">$${orders.reduce((sum, o) => sum + (o.total || 0), 0).toFixed(2)}</span></div>
+                </div>`;
+
+            // Display user's orders
+            const userOrders = orders.filter(o => o.customerEmail === currentUser.email);
+            document.getElementById('userOrderHistory').innerHTML = userOrders.length === 0
+                ? '<p class="text-slate-400 text-sm text-center py-4">No orders yet.</p>'
+                : userOrders.map(order => `
+                    <div class="glass rounded-xl p-4 mb-3 text-sm">
+                        <div class="flex justify-between mb-1">
+                            <span class="font-bold text-slate-50">Order #${order._id || order.id}</span>
+                            <span class="text-slate-400">${new Date(order.createdAt || order.date).toLocaleDateString()}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-slate-400">Total</span>
+                            <span class="font-bold text-slate-50">$${order.total.toFixed(2)}</span>
+                        </div>
+                        <div class="flex justify-between mt-1">
+                            <span class="text-slate-400 text-xs">Status</span>
+                            <span class="text-xs text-violet-300">${order.status}</span>
+                        </div>
+                    </div>`).join('');
+        }
+
+        // ADMIN
+        function showAdminDashboard() {
+            if (!currentUser || !currentUser.isAdmin) {
+                showToast('Access denied.', 'error');
+                return;
+            }
+            hideAllSections();
+            document.getElementById('adminDashboard').classList.remove('hidden');
+            showAdminTab('stats');
+        }
+
+        async function showAdminTab(tab) {
+            document.querySelectorAll('.admin-tab').forEach(t => t.classList.add('hidden'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById('admin-' + tab).classList.remove('hidden');
+            document.getElementById('tab-' + tab).classList.add('active');
+
+            // Load data from backend for specific tabs
+            if (tab === 'orders') {
+                await loadAdminOrders();
+            } else if (tab === 'customers') {
+                await loadCustomers();
+            } else if (tab === 'discounts') {
+                await loadDiscounts();
+            }
+
+            const fn = {
+                stats: renderStats,
+                products: renderAdminProducts,
+                orders: renderOrders,
+                customers: renderCustomers,
+                reviews: renderAdminReviews,
+                discounts: renderDiscounts
+            }[tab];
+            if (fn) fn();
+        }
+
+        function renderStats() {
+            document.getElementById('totalProducts').textContent = products.length;
+            document.getElementById('totalRevenue').textContent = '$' + orders.reduce((sum, o) => sum + o.total, 0).toFixed(2);
+            document.getElementById('totalOrders').textContent = orders.length;
+            document.getElementById('totalCustomers').textContent = customers.length;
+
+            const ctx = document.getElementById('revenueChart').getContext('2d');
+            const last7 = [...Array(7)].map((_, i) => new Date(Date.now() - (6 - i) * 24 * 60 * 60 * 1000));
+            const byDay = last7.map(day => orders.filter(o => new Date(o.date).toDateString() === day.toDateString()).reduce((sum, o) => sum + o.total, 0));
+
+            if (revenueChartInstance) revenueChartInstance.destroy();
+
+            revenueChartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: last7.map(d => d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })),
+                    datasets: [{
+                        label: 'Revenue ($)',
+                        data: byDay,
+                        borderColor: '#a855f7',
+                        backgroundColor: 'rgba(168,85,247,0.25)',
+                        tension: 0.35,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: { callback: v => '$' + v.toFixed(0), color: '#e5e7eb' },
+                            grid: { color: 'rgba(148,163,184,0.25)' }
+                        },
+                        x: {
+                            ticks: { color: '#e5e7eb' },
+                            grid: { color: 'rgba(148,163,184,0.15)' }
+                        }
+                    },
+                    plugins: { legend: { labels: { color: '#e5e7eb' } } }
+                }
+            });
+
+            const productSales = {};
+            orders.forEach(order => order.items.forEach(item => {
+                productSales[item.name] = (productSales[item.name] || 0) + item.quantity;
+            }));
+            const top = Object.entries(productSales).sort((a, b) => b[1] - a[1]).slice(0, 5);
+            document.getElementById('topProductsList').innerHTML = top.length === 0
+                ? '<p class="text-slate-400 text-sm">No sales yet.</p>'
+                : top.map(([name, qty]) => `
+                    <div class="flex justify-between items-center py-2 text-sm border-b border-slate-800 last:border-0">
+                        <span class="text-slate-200">${name}</span>
+                        <span class="font-bold text-slate-50">${qty} sold</span>
+                    </div>`).join('');
+        }
+
+        // PRODUCT MANAGEMENT
+        async function saveProduct(event) {
+            event.preventDefault();
+            const id = document.getElementById('editProductId').value;
+            const productData = {
+                name: document.getElementById('productName').value,
+                price: parseFloat(document.getElementById('productPrice').value),
+                stock: parseInt(document.getElementById('productStock').value),
+                image: document.getElementById('productImage').value,
+                description: document.getElementById('productDescription').value,
+            };
+            
+            let success;
+            if (id) {
+                // Update existing product
+                success = await updateProductAPI(id, productData);
+            } else {
+                // Create new product
+                success = await createProductAPI(productData);
+            }
+            
+            if (success) {
+                event.target.reset();
+                cancelEdit();
+                renderAdminProducts();
+            }
+        }
+
+        function editProduct(id) {
+            const p = products.find(p => (p._id || p.id) == id);
+            if (!p) return;
+            
+            document.getElementById('editProductId').value = p._id || p.id;
+            document.getElementById('productName').value = p.name;
+            document.getElementById('productPrice').value = p.price;
+            document.getElementById('productStock').value = p.stock;
+            document.getElementById('productImage').value = p.image;
+            document.getElementById('productDescription').value = p.description;
+            document.getElementById('productFormBtn').textContent = 'Update product';
+            document.getElementById('cancelEditBtn').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function cancelEdit() {
+            const form = document.querySelector('#admin-products form');
+            if (form) form.reset();
+            document.getElementById('editProductId').value = '';
+            document.getElementById('productFormBtn').textContent = 'Add product';
+            document.getElementById('cancelEditBtn').classList.add('hidden');
+        }
+
+        function deleteProduct(id) {
+            if (!confirm('Delete this product?')) return;
+            deleteProductAPI(id);
+        }
+
+        // PUBLIC PRODUCTS
+        function filterProducts() {
+            const search = document.getElementById('searchInput')?.value.toLowerCase() || '';
+            const sort = document.getElementById('sortFilter')?.value || '';
+            let filtered = products.filter(p => p.name.toLowerCase().includes(search) || p.description.toLowerCase().includes(search));
+            if (sort === 'price-low') filtered.sort((a, b) => a.price - b.price);
+            if (sort === 'price-high') filtered.sort((a, b) => b.price - a.price);
+            if (sort === 'name') filtered.sort((a, b) => a.name.localeCompare(b.name));
+            if (sort === 'rating') filtered.sort((a, b) => (b.rating || 0) - (a.rating || 0));
+            renderPaginatedList(filtered, 'products', renderProductCard, 'productsList', 'productsPagination');
+        }
+
+        function renderProductCard(p) {
+            const productId = p._id || p.id;
+            const inWishlist = currentUser && wishlist.includes(productId);
+            return `
+                <div class="product-card glass border border-slate-800 rounded-2xl p-4 cursor-pointer animate-fadeInScale" onclick="showProductDetail('${productId}')">
+                    <div class="rounded-2xl h-52 mb-4 overflow-hidden bg-slate-900">
+                        <img src="${escapeHtml(sanitizeUrl(p.image))}" alt="${escapeHtml(p.name || "")}" class="w-full h-full object-cover">
+                    </div>
+                    <h3 class="text-base font-bold text-slate-50 mb-1 line-clamp-1">${escapeHtml(p.name || "")}</h3>
+                    <p class="text-xs text-slate-400 mb-3 line-clamp-2">${escapeHtml(p.description || "")}</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-lg font-bold text-slate-50">$${p.price.toFixed(2)}</span>
+                        <div class="flex gap-2">
+                            <button onclick="event.stopPropagation(); toggleWishlist('${productId}')" class="btn-ghost px-3 py-1 text-xs">
+                                ${inWishlist ? '♥ Saved' : '♡ Wishlist'}
+                            </button>
+                            <button onclick="event.stopPropagation(); addToCart('${productId}')" class="btn-primary px-4 py-1 text-xs">Add</button>
+                        </div>
+                    </div>
+                </div>`;
+        }
+
+        // PRODUCT DETAIL
+        // XSS-SAFE: Uses escapeHtml() for user data
+        function showProductDetail(id) {
+            const product = products.find(p => (p._id || p.id) == id);
+            if (!product) return;
+            
+            const productId = product._id || product.id;
+            const productReviews = reviews.filter(r => r.productId == id);
+            const inWishlist = currentUser && wishlist.includes(productId);
+
+            document.getElementById('productModalContent').innerHTML = `
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <div class="rounded-2xl overflow-hidden bg-slate-900 mb-3">
+                            <img src="${escapeHtml(sanitizeUrl(product.image))}" alt="${escapeHtml(product.name || "")}" class="w-full h-full object-cover">
+                        </div>
+                    </div>
+                    <div>
+                        <h2 class="text-2xl font-bold tracking-tight text-slate-50 mb-2">${escapeHtml(product.name || "")}</h2>
+                        <div class="flex items-center mb-2">
+                            ${[...Array(5)].map((_, i) => `<span class="text-lg ${i < (product.rating || 0) ? 'text-yellow-400' : 'text-slate-700'}">★</span>`).join('')}
+                            <span class="text-xs text-slate-400 ml-2">${product.reviewCount || 0} reviews</span>
+                        </div>
+                        <p class="text-xl font-bold text-slate-50 mb-3">$${product.price.toFixed(2)}</p>
+                        <p class="text-sm text-slate-300 mb-3">${escapeHtml(product.description || "")}</p>
+                        <p class="text-xs text-slate-400 mb-4">${product.stock > 0 ? 'In stock: ' + product.stock : 'Out of stock'}</p>
+                        <div class="flex flex-wrap gap-2">
+                            <button onclick="toggleWishlist('${productId}')" class="btn-ghost text-xs">
+                                ${inWishlist ? 'In wishlist' : 'Add to wishlist'}
+                            </button>
+                            <button onclick="addToCart('${productId}')" class="btn-primary text-xs" ${product.stock === 0 ? 'disabled' : ''}>Add to cart</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-8">
+                    <h3 class="text-sm font-bold tracking-tight text-slate-50 mb-3">Customer reviews</h3>
+                    ${currentUser && !currentUser.isAdmin ? `
+                        <div class="glass rounded-xl p-4 mb-4">
+                            <h4 class="text-xs font-semibold text-slate-50 mb-2">Write a review</h4>
+                            <div class="flex gap-1 mb-2 rating-stars">
+                                ${[1,2,3,4,5].map(i => `<span class="star text-xl text-slate-700 cursor-pointer" onmouseover="rateHover(${i})" onmouseout="rateHover(0)" onclick="setRating(${i})" data-rating="${i}">★</span>`).join('')}
+                            </div>
+                            <textarea id="reviewText" rows="3" class="input-field w-full" placeholder="Share your experience..."></textarea>
+                            <button onclick="submitReview('${productId}')" class="btn-primary mt-3 text-xs">Submit</button>
+                        </div>` : ''}
+                    <div class="space-y-3">
+                        ${productReviews.length === 0 ? '<p class="text-xs text-slate-400">No reviews yet.</p>' : productReviews.map(r => `
+                            <div class="glass rounded-xl p-4 text-sm">
+                                <div class="flex justify-between mb-1">
+                                    <span class="font-bold text-slate-50">${escapeHtml(r.userName || "")}</span>
+                                    <span class="text-[11px] text-slate-500">${new Date(r.date).toLocaleDateString()}</span>
+                                </div>
+                                <div class="mb-1">
+                                    ${[...Array(5)].map((_, i) => `<span class="text-[13px] ${i < r.rating ? 'text-yellow-400' : 'text-slate-700'}">★</span>`).join('')}
+                                </div>
+                                <p class="text-slate-200">${escapeHtml(r.review || "")}</p>
+                            </div>`).join('')}
+                    </div>
+                </div>`;
+            document.getElementById('productModal').classList.remove('hidden');
+        }
+
+        function closeProductModal() { document.getElementById('productModal').classList.add('hidden'); }
+
+        let currentRating = 0;
+        function rateHover(rating) {
+            document.querySelectorAll('#productModal .rating-stars .star').forEach((star, i) => {
+                star.classList.toggle('text-yellow-400', i < rating);
+                star.classList.toggle('text-slate-700', i >= rating);
+            });
+        }
+        function setRating(rating) {
+            currentRating = rating;
+            document.querySelectorAll('#productModal .rating-stars .star').forEach((star, i) => {
+                star.classList.toggle('text-yellow-400', i < rating);
+                star.classList.remove('text-slate-700');
+            });
+        }
+
+        function submitReview(productId) {
+            if (!currentUser) return showToast('Login to review.', 'error');
+            if (currentRating === 0) return showToast('Pick a star rating.', 'error');
+            const text = sanitizeInput(document.getElementById('reviewText').value.trim());
+            if (!text) return showToast('Write something.', 'error');
+            if (text.length > 500) return showToast('Max 500 characters.', 'error');
+
+            reviews.unshift({
+                id: Date.now(),
+                productId,
+                userId: currentUser.email,
+                userName: escapeHtml(currentUser.name),
+                rating: currentRating,
+                review: text,
+                date: new Date().toISOString()
+            });
+
+            const product = products.find(p => p.id == productId);
+            const productReviews = reviews.filter(r => r.productId == productId);
+            product.reviewCount = productReviews.length;
+            product.rating = Math.round(productReviews.reduce((sum, r) => sum + r.rating, 0) / productReviews.length);
+            saveData();
+            currentRating = 0;
+            showProductDetail(productId);
+            filterProducts();
+            renderReviews();
+            showToast('Review submitted.', 'success');
+        }
+
+        // WISHLIST
+        function toggleWishlist(id) {
+            if (!isAuthenticated()) {
+                showToast('Login to use wishlist.', 'error');
+                openLogin();
+                return;
+            }
+            
+            const index = wishlist.indexOf(id);
+            if (index > -1) {
+                removeFromWishlistAPI(id).then(success => {
+                    if (success) {
+                        showToast('Removed from wishlist.', 'success');
+                        filterProducts();
+                    }
+                });
+            } else {
+                addToWishlistAPI(id).then(success => {
+                    if (success) {
+                        showToast('Added to wishlist.', 'success');
+                        filterProducts();
+                    }
+                });
+            }
+        }
+
+        function updateWishlistCount() {
+            const el = document.getElementById('wishlistCount');
+            if (!currentUser) { el.classList.add('hidden'); return; }
+            el.textContent = wishlist.length;
+            el.classList.toggle('hidden', wishlist.length === 0);
+        }
+
+        function showWishlist() {
+            if (!currentUser) return showToast('Login to view wishlist.', 'error');
+            hideAllSections();
+            document.getElementById('wishlistPage').classList.remove('hidden');
+            renderWishlist();
+        }
+
+        function renderWishlist() {
+            const container = document.getElementById('wishlistItems');
+            if (!container) return;
+            const items = products.filter(p => wishlist.includes(p.id));
+            if (items.length === 0) {
+                container.innerHTML = '<p class="text-center text-slate-400 text-sm py-10">Your wishlist is empty.</p>';
+            } else {
+                container.innerHTML = items.map(renderProductCard).join('');
+            }
+        }
+
+        // CART
+        function toggleCart() {
+            document.getElementById('cartSidebar').classList.toggle('translate-x-full');
+        }
+
+        function addToCart(id) {
+            if (!isAuthenticated()) {
+                showToast('Please login to add items to cart', 'error');
+                openLogin();
+                return;
+            }
+            
+            const product = products.find(p => p.id == id);
+            if (!product || product.stock === 0) return showToast('Out of stock.', 'error');
+            
+            // Call backend API to add to cart
+            addToCartAPI(id, 1).then(success => {
+                if (success) {
+                    showToast(product.name + ' added to cart.', 'success');
+                }
+            });
+        }
+
+        function removeFromCart(id) {
+            if (!isAuthenticated()) return;
+            removeFromCartAPI(id);
+        }
+
+        function updateCart() {
+            const subtotal = cart.reduce((sum, i) => sum + i.price * i.quantity, 0);
+            const discount = appliedDiscount ? subtotal * (appliedDiscount.percent / 100) : 0;
+            const total = subtotal - discount;
+
+            document.getElementById('cartSubtotal').textContent = '$' + subtotal.toFixed(2);
+            document.getElementById('discountDisplay').classList.toggle('hidden', !appliedDiscount);
+            document.getElementById('discountAmount').textContent = '-$' + discount.toFixed(2);
+            document.getElementById('cartTotal').textContent = '$' + total.toFixed(2);
+
+            const cartCount = cart.reduce((sum, i) => sum + i.quantity, 0);
+            const cc = document.getElementById('cartCount');
+            cc.textContent = cartCount;
+            cc.classList.toggle('hidden', cart.length === 0);
+
+            document.getElementById('cartItems').innerHTML = cart.length === 0
+                ? '<p class="text-center text-slate-400 text-sm py-10">Your cart is empty.</p>'
+                : cart.map(item => `
+                    <div class="glass rounded-xl p-3 mb-3 flex gap-3 items-center text-sm">
+                        <img src="${escapeHtml(sanitizeUrl(item.image))}" alt="${escapeHtml(item.name || "")}" class="w-14 h-14 rounded-lg object-cover">
+                        <div class="flex-1">
+                            <p class="font-bold text-slate-50 line-clamp-1">${escapeHtml(item.name || "")}</p>
+                            <p class="text-slate-400 text-xs">$${item.price.toFixed(2)}</p>
+                            <div class="flex items-center gap-2 mt-1">
+                                <button onclick="updateQuantity(${item.id}, -1)" class="px-2 py-0.5 text-xs rounded-full border border-slate-700 text-slate-200">-</button>
+                                <span class="text-slate-50">${item.quantity}</span>
+                                <button onclick="updateQuantity(${item.id}, 1)" class="px-2 py-0.5 text-xs rounded-full border border-slate-700 text-slate-200">+</button>
+                            </div>
+                        </div>
+                        <button onclick="removeFromCart(${item.id})" class="text-slate-500 text-lg">×</button>
+                    </div>`).join('');
+        }
+
+        function updateQuantity(id, change) {
+            if (!isAuthenticated()) return;
+            
+            const item = cart.find(i => i.id === id);
+            const product = products.find(p => p.id === id);
+            if (!item) return;
+            
+            const newQuantity = item.quantity + change;
+            
+            if (newQuantity <= 0) {
+                removeFromCartAPI(id);
+            } else {
+                if (change > 0 && newQuantity > product.stock) {
+                    return showToast('Not enough stock.', 'error');
+                }
+                updateCartAPI(id, newQuantity);
+            }
+        }
+
+        function applyDiscount() {
+            const code = document.getElementById('discountInput').value.toUpperCase();
+            const discount = discounts.find(d => d.code === code);
+            if (discount) {
+                appliedDiscount = discount;
+                showToast('Discount applied.', 'success');
+            } else {
+                appliedDiscount = null;
+                showToast('Invalid code.', 'error');
+            }
+            updateCart();
+        }
+
+        function checkout() {
+            if (cart.length === 0) return showToast('Cart is empty.', 'error');
+            if (!currentUser && !isGuestCheckout) {
+                showGuestCheckoutModal();
+                return;
+            }
+            showPaymentModal();
+        }
+
+        function showGuestCheckoutModal() {
+            const modal = document.createElement('div');
+            modal.id = 'guestCheckoutModal';
+            modal.className = 'fixed inset-0 z-[70] flex items-center justify-center p-4';
+            modal.innerHTML = `
+                <div class="absolute inset-0 bg-slate-900/70 backdrop-blur-sm" onclick="closeGuestCheckoutModal()"></div>
+                <div class="glass rounded-2xl p-6 max-w-md w-full relative">
+                    <h2 class="text-lg font-bold tracking-tight text-slate-50 mb-4">Checkout options</h2>
+                    <div class="space-y-3 text-sm">
+                        <button onclick="openLogin(); closeGuestCheckoutModal();" class="w-full btn-primary justify-center">Login to account</button>
+                        <div class="text-center text-[11px] text-slate-500">or</div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 mb-1">Continue as guest</label>
+                            <input type="email" id="guestEmailInput" class="input-field w-full mb-2" placeholder="you@example.com">
+                            <button onclick="proceedAsGuest()" class="w-full btn-ghost justify-center text-violet-200 border-[rgba(196,181,253,0.6)]">Continue as guest</button>
+                        </div>
+                    </div>
+                    <button onclick="closeGuestCheckoutModal()" class="absolute top-3 right-3 text-lg text-slate-400">×</button>
+                </div>`;
+            document.body.appendChild(modal);
+        }
+
+        function closeGuestCheckoutModal() {
+            const modal = document.getElementById('guestCheckoutModal');
+            if (modal) modal.remove();
+        }
+
+        function proceedAsGuest() {
+            const email = document.getElementById('guestEmailInput').value.trim();
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) return showToast('Enter a valid email.', 'error');
+            isGuestCheckout = true;
+            guestEmail = email;
+            closeGuestCheckoutModal();
+            showPaymentModal();
+        }
+
+        function showPaymentModal() {
+            showLoader();
+            const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+            const discountAmount = appliedDiscount ? subtotal * (appliedDiscount.percent / 100) : 0;
+            const total = subtotal - discountAmount;
+
+            setTimeout(() => {
+                hideLoader();
+                const modal = document.createElement('div');
+                modal.id = 'paymentModal';
+                modal.className = 'fixed inset-0 z-[70] flex items-center justify-center p-4 overflow-y-auto';
+                modal.innerHTML = `
+                    <div class="absolute inset-0 bg-slate-900/70 backdrop-blur-sm" onclick="closePaymentModal()"></div>
+                    <div class="glass rounded-2xl p-6 md:p-7 max-w-2xl w-full relative my-8">
+                        <h2 class="text-xl font-bold tracking-tight text-slate-50 mb-4">Complete your order</h2>
+                        <div class="glass-dark rounded-xl p-4 mb-4 text-sm">
+                            <h3 class="text-xs font-semibold text-slate-300 mb-2">Order summary</h3>
+                            ${cart.map(item => `
+                                <div class="flex justify-between mb-1">
+                                    <span class="text-slate-300">${escapeHtml(item.name || "")} ×${item.quantity}</span>
+                                    <span class="text-slate-50 font-bold">$${(item.price * item.quantity).toFixed(2)}</span>
+                                </div>`).join('')}
+                            <div class="border-t border-slate-800 mt-3 pt-2 space-y-1">
+                                <div class="flex justify-between"><span class="text-slate-400">Subtotal</span><span class="text-slate-50">$${subtotal.toFixed(2)}</span></div>
+                                ${discountAmount > 0 ? `<div class="flex justify-between text-emerald-400"><span>Discount</span><span>-$${discountAmount.toFixed(2)}</span></div>` : ''}
+                                <div class="flex justify-between text-base font-bold text-slate-50 pt-1"><span>Total</span><span>$${total.toFixed(2)}</span></div>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-xs font-semibold text-slate-300 mb-1">Email</label>
+                            <input type="email" id="checkoutEmail" value="${currentUser ? currentUser.email : guestEmail}" ${currentUser ? 'readonly' : ''} class="input-field w-full">
+                        </div>
+                        <div class="mb-4 text-sm">
+                            <h3 class="text-xs font-semibold text-slate-300 mb-1">Payment method</h3>
+                            <div class="glass-dark rounded-xl p-3 flex items-center gap-3">
+                                <div class="text-2xl">💳</div>
+                                <div class="flex-1">
+                                    <div class="text-slate-50 text-sm font-semibold">Card payment (demo)</div>
+                                    <div class="text-[11px] text-slate-400">Stripe-style UI – no real charges.</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-xs font-semibold text-slate-300 mb-1">Card details</label>
+                            <div id="card-element" class="p-3 rounded-xl border border-slate-700 bg-slate-900"></div>
+                            <div id="card-errors" class="text-[11px] text-rose-400 mt-1"></div>
+                        </div>
+                        <button onclick="processPayment()" id="payBtn" class="w-full btn-primary justify-center">Pay $${total.toFixed(2)}</button>
+                        <button onclick="closePaymentModal()" class="absolute top-3 right-3 text-lg text-slate-400">×</button>
+                    </div>`;
+                document.body.appendChild(modal);
+                initializeStripeElements();
+            }, 400);
+        }
+
+        function initializeStripeElements() {
+            const el = document.getElementById('card-element');
+            if (!el) return;
+            el.innerHTML = `
+                <input type="text" placeholder="1234 5678 9012 3456" maxlength="19" class="w-full px-3 py-2 mb-2 rounded-lg border border-slate-700 focus:outline-none focus:border-purple-400 text-sm bg-slate-950 text-slate-100" oninput="formatCardNumber(this)">
+                <div class="flex gap-2">
+                    <input type="text" placeholder="MM/YY" maxlength="5" class="flex-1 px-3 py-2 rounded-lg border border-slate-700 focus:outline-none focus:border-purple-400 text-sm bg-slate-950 text-slate-100" oninput="formatExpiry(this)">
+                    <input type="text" placeholder="CVC" maxlength="3" class="flex-1 px-3 py-2 rounded-lg border border-slate-700 focus:outline-none focus:border-purple-400 text-sm bg-slate-950 text-slate-100">
+                </div>
+                <p class="text-[10px] text-slate-400 mt-1">Demo only – no actual payment.</p>`;
+        }
+
+        function formatCardNumber(input) {
+            let value = input.value.replace(/\s/g, '');
+            let formatted = value.match(/.{1,4}/g)?.join(' ') || value;
+            input.value = formatted;
+        }
+
+        function formatExpiry(input) {
+            let value = input.value.replace(/\D/g, '');
+            if (value.length >= 2) value = value.slice(0, 2) + '/' + value.slice(2, 4);
+            input.value = value;
+        }
+
+        async function processPayment() {
+            const payBtn = document.getElementById('payBtn');
+            payBtn.disabled = true;
+            payBtn.textContent = 'Processing...';
+            showLoader();
+
+            // Simulate payment processing delay
+            setTimeout(async () => {
+                const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+                const discountAmount = appliedDiscount ? subtotal * (appliedDiscount.percent / 100) : 0;
+                const total = subtotal - discountAmount;
+
+                const customerEmail = currentUser ? currentUser.email : guestEmail;
+                const customerName = currentUser ? currentUser.name : 'Guest';
+                
+                const orderData = {
+                    customerEmail,
+                    customerName,
+                    items: cart,
+                    subtotal,
+                    discount: discountAmount,
+                    shipping: 0,
+                    total,
+                    paymentMethod: 'Card',
+                    isGuest: isGuestCheckout
+                };
+
+                // Create order via API
+                const order = await createOrderAPI(orderData);
+                
+                hideLoader();
+                
+                if (order) {
+                    // Update local product stock (if managing locally)
+                    cart.forEach(item => {
+                        const product = products.find(p => p.id == item.id);
+                        if (product) product.stock -= item.quantity;
+                    });
+
+                    // Reset checkout state
+                    appliedDiscount = null;
+                    isGuestCheckout = false;
+                    guestEmail = '';
+
+                    closePaymentModal();
+                    toggleCart();
+                    renderAll();
+                    showOrderConfirmation(order);
+                } else {
+                    payBtn.disabled = false;
+                    payBtn.textContent = 'Pay $' + total.toFixed(2);
+                }
+            }, 1500);
+        }
+
+        function closePaymentModal() {
+            const modal = document.getElementById('paymentModal');
+            if (modal) modal.remove();
+        }
+
+        function showOrderConfirmation(order) {
+            const modal = document.createElement('div');
+            modal.id = 'confirmationModal';
+            modal.className = 'fixed inset-0 z-[80] flex items-center justify-center p-4';
+            modal.innerHTML = `
+                <div class="absolute inset-0 bg-slate-900/70 backdrop-blur-sm"></div>
+                <div class="glass rounded-2xl p-6 max-w-md w-full relative text-center">
+                    <div class="text-4xl mb-3">✅</div>
+                    <h2 class="text-lg font-bold tracking-tight text-slate-50 mb-1">Order confirmed</h2>
+                    <p class="text-xs text-slate-400 mb-3">Order #${order.id}</p>
+                    <p class="text-xs text-slate-300 mb-4">Confirmation sent to <span class="font-semibold">${order.customerEmail}</span></p>
+                    <div class="glass-dark rounded-xl p-4 mb-4 text-left text-sm">
+                        <div class="text-slate-400 mb-1">Total</div>
+                        <div class="text-xl font-bold text-slate-50 mb-1">$${order.total.toFixed(2)}</div>
+                        <div class="text-[11px] text-slate-400">Paid by card</div>
+                    </div>
+                    <button onclick="closeConfirmationModal(); goHome();" class="w-full btn-primary justify-center">Continue shopping</button>
+                    <button onclick="closeConfirmationModal();" class="absolute top-3 right-3 text-lg text-slate-400">×</button>
+                </div>`;
+            document.body.appendChild(modal);
+        }
+
+        function closeConfirmationModal() {
+            const modal = document.getElementById('confirmationModal');
+            if (modal) modal.remove();
+        }
+
+        // PAGINATION
+        function renderPaginatedList(items, key, renderFn, listId, paginationId) {
+            const state = paginationConfig[key];
+            const totalPages = Math.ceil(items.length / state.itemsPerPage) || 1;
+            state.currentPage = Math.min(state.currentPage, totalPages);
+            const start = (state.currentPage - 1) * state.itemsPerPage;
+            const end = start + state.itemsPerPage;
+            const pageItems = items.slice(start, end);
+
+            const listEl = document.getElementById(listId);
+            listEl.innerHTML = pageItems.length === 0
+                ? '<p class="text-center text-slate-400 text-sm py-10">No items to display.</p>'
+                : pageItems.map(renderFn).join('');
+
+            const paginationEl = document.getElementById(paginationId);
+            if (totalPages > 1) {
+                paginationEl.innerHTML = `
+                    <button onclick="changePage('${key}', -1)" class="pagination-btn" ${state.currentPage === 1 ? 'disabled' : ''}>Prev</button>
+                    <span class="text-slate-400 text-xs">${state.currentPage} / ${totalPages}</span>
+                    <button onclick="changePage('${key}', 1)" class="pagination-btn" ${state.currentPage === totalPages ? 'disabled' : ''}>Next</button>`;
+            } else {
+                paginationEl.innerHTML = '';
+            }
+        }
+
+        function changePage(key, direction) {
+            const state = paginationConfig[key];
+            state.currentPage += direction;
+            if (key === 'products') filterProducts();
+            else if (key === 'reviews') renderReviews();
+            else if (key === 'adminProducts') renderAdminProducts();
+            else if (key === 'adminOrders') renderOrders();
+            else if (key === 'adminCustomers') renderCustomers();
+            else if (key === 'adminReviews') renderAdminReviews();
+        }
+
+        // ADMIN RENDER
+        // XSS-SAFE: Uses escapeHtml() for user data
+        function renderAdminProducts() {
+            renderPaginatedList(products, 'adminProducts', p => {
+                const productId = p._id || p.id;
+                return `
+                <div class="glass rounded-xl p-4 mb-3 flex items-center justify-between text-sm">
+                    <div class="flex items-center gap-3">
+                        <img src="${escapeHtml(sanitizeUrl(p.image))}" alt="${escapeHtml(p.name || "")}" class="w-14 h-14 rounded-lg object-cover">
+                        <div>
+                            <h3 class="font-bold text-slate-50">${escapeHtml(p.name || "")}</h3>
+                            <p class="text-slate-400 text-xs">Stock: ${p.stock}</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="font-bold text-slate-50">$${p.price.toFixed(2)}</span>
+                        <button onclick="editProduct('${productId}')" class="btn-ghost text-xs">Edit</button>
+                        <button onclick="deleteProduct('${productId}')" class="btn-ghost text-xs text-rose-400 border-rose-400/40">Delete</button>
+                    </div>
+                </div>`;
+            }, 'adminProductsList', 'adminProductsPagination');
+        }
+
+        // XSS-SAFE: Uses escapeHtml() for user data
+        function renderOrders() {
+            renderPaginatedList(orders, 'adminOrders', order => {
+                const orderId = order._id || order.id;
+                const orderDate = order.createdAt || order.date;
+                return `
+                <div class="glass rounded-xl p-4 mb-3 text-sm">
+                    <div class="flex justify-between items-start mb-2">
+                        <div>
+                            <h3 class="font-bold text-slate-50">Order #${orderId.toString().slice(-8)}</h3>
+                            <p class="text-slate-400 text-xs">${escapeHtml(order.customerName || "")}</p>
+                            <p class="text-slate-500 text-[11px]">${new Date(orderDate).toLocaleString()}</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-base font-bold text-slate-50">$${order.total.toFixed(2)}</p>
+                            <select onchange="updateOrderStatus('${orderId}', this.value)" class="mt-1 text-xs rounded-full border border-slate-700 px-2 py-1 bg-slate-950 text-slate-100">
+                                ${['Processing', 'Shipped', 'Delivered', 'Cancelled'].map(s => `<option value="${s}" ${order.status === s ? 'selected' : ''}>${s}</option>`).join('')}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="border-t border-slate-800 pt-2 mt-1">
+                        ${order.items.map(item => `<div class="flex justify-between text-slate-300 text-xs"><span>${escapeHtml(item.name || "")} ×${item.quantity}</span><span>$${(item.price * item.quantity).toFixed(2)}</span></div>`).join('')}
+                    </div>
+                </div>`;
+            }, 'ordersList', 'adminOrdersPagination');
+        }
+
+        function updateOrderStatus(orderId, status) {
+            updateOrderStatusAPI(orderId, status);
+        }
+
+        // XSS-SAFE: Uses escapeHtml() for user data
+        function renderCustomers() {
+            renderPaginatedList(customers, 'adminCustomers', c => {
+                const joinDate = c.createdAt || c.joinDate;
+                return `
+                <div class="glass rounded-xl p-4 mb-3 flex justify-between items-center text-sm">
+                    <div>
+                        <h3 class="font-bold text-slate-50">${escapeHtml(c.username || c.name || "")}</h3>
+                        <p class="text-slate-400 text-xs">${escapeHtml(c.email || "")}</p>
+                        <p class="text-slate-500 text-[11px]">Joined ${new Date(joinDate).toLocaleDateString()}</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-base font-bold text-slate-50">$${(c.totalSpent || 0).toFixed(2)}</p>
+                        <p class="text-slate-400 text-xs">${c.orderCount || 0} orders</p>
+                    </div>
+                </div>`;
+            }, 'customersList', 'adminCustomersPagination');
+        }
+
+        function renderAdminReviews() {
+            renderPaginatedList(reviews, 'adminReviews', r => `
+                <div class="glass rounded-xl p-4 mb-3 text-sm">
+                    <div class="flex justify-between items-start mb-1">
+                        <div>
+                            <h3 class="font-bold text-slate-50">${escapeHtml(r.userName || "")}</h3>
+                            <p class="text-[11px] text-slate-500">${new Date(r.date).toLocaleDateString()}</p>
+                        </div>
+                        <button onclick="deleteReview(${r.id})" class="btn-ghost text-xs text-rose-400 border-rose-400/40">Delete</button>
+                    </div>
+                    <div class="mb-1">${[...Array(5)].map((_, i) => `<span class="text-[13px] ${i < r.rating ? 'text-yellow-400' : 'text-slate-700'}">★</span>`).join('')}</div>
+                    <p class="text-slate-200">"${escapeHtml(r.review || "")}"</p>
+                    ${r.productId ? `<p class="text-[11px] text-slate-500 mt-1">Product: ${products.find(p => p.id === r.productId)?.name || 'N/A'}</p>` : ''}
+                </div>`, 'adminReviewsList', 'adminReviewsPagination');
+        }
+
+        // Security note: Review rendering uses innerHTML for star display
+        // Review rendering: userNames are escaped, charAt(0) for avatar is safe (single char)
+        // XSS-SAFE: Uses escapeHtml() for user data
+        function renderReviews() {
+            renderPaginatedList(reviews, 'reviews', r => `
+                <div class="glass rounded-xl p-4 mb-4 text-sm">
+                    <div class="flex items-start gap-3">
+                        <div class="flex-shrink-0 w-9 h-9 rounded-full bg-gradient-to-br from-purple-500 to-fuchsia-500 text-white flex items-center justify-center text-xs font-bold">${r.userName.charAt(0).toUpperCase()}</div>
+                        <div class="flex-1">
+                            <div class="flex justify-between items-center mb-1">
+                                <h3 class="font-bold text-slate-50">${escapeHtml(r.userName || "")}</h3>
+                                <span class="text-[11px] text-slate-500">${new Date(r.date).toLocaleDateString()}</span>
+                            </div>
+                            <div class="mb-1">${[...Array(5)].map((_, i) => `<span class="text-[13px] ${i < r.rating ? 'text-yellow-400' : 'text-slate-700'}">★</span>`).join('')}</div>
+                            <p class="text-slate-200">"${escapeHtml(r.review || "")}"</p>
+                        </div>
+                    </div>
+                </div>`, 'allReviewsList', 'reviewsPagination');
+        }
+
+        function deleteReview(id) {
+            if (!confirm('Delete this review?')) return;
+            reviews = reviews.filter(r => r.id != id);
+            saveData();
+            renderAdminReviews();
+            renderReviews();
+            filterProducts();
+            showToast('Review deleted.', 'success');
+        }
+
+        // DISCOUNTS
+        async function createDiscount(event) {
+            event.preventDefault();
+            const code = document.getElementById('discountCode').value.toUpperCase();
+            const percent = parseInt(document.getElementById('discountPercent').value);
+            
+            const success = await createDiscountAPI(code, percent);
+            if (success) {
+                event.target.reset();
+            }
+        }
+
+        function renderDiscounts() {
+            document.getElementById('discountsList').innerHTML = discounts.length === 0
+                ? '<p class="text-slate-400 text-sm">No discount codes yet.</p>'
+                : discounts.map(d => {
+                    const discountId = d._id || d.id;
+                    return `
+                    <div class="glass rounded-xl p-4 mb-3 flex justify-between items-center text-sm">
+                        <div>
+                            <h3 class="font-bold text-slate-50">${escapeHtml(d.code || "")}</h3>
+                            <p class="text-slate-400 text-xs">${d.percent}% off</p>
+                        </div>
+                        <button onclick="deleteDiscount('${discountId}')" class="btn-ghost text-xs text-rose-400 border-rose-400/40">Delete</button>
+                    </div>`;
+                }).join('');
+        }
+
+        function deleteDiscount(id) {
+            if (!confirm('Delete this code?')) return;
+            deleteDiscountAPI(id);
+        }
+
+        // UTILS
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = 'toast ' + type;
+            toast.textContent = message;
+            container.appendChild(toast);
+            setTimeout(() => toast.classList.add('show'), 50);
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 400);
+            }, 2800);
+        }
+
+        function showLoader() { document.getElementById('loader-overlay').classList.remove('hidden'); }
+        function hideLoader() { document.getElementById('loader-overlay').classList.add('hidden'); }
+
+        function exportData(type) {
+            let data, filename;
+            const items = { products, orders, customers }[type];
+            if (!items || items.length === 0) return showToast('No data to export.', 'error');
+            if (type === 'products') {
+                data = items.map(({ id, name, price, stock, rating, reviewCount }) => ({ id, name, price, stock, rating, reviewCount }));
+                filename = 'products.csv';
+            } else if (type === 'orders') {
+                data = items.map(({ id, customerName, total, status, date }) => ({ id, customerName, total, status, date: new Date(date).toLocaleString() }));
+                filename = 'orders.csv';
+            } else {
+                data = items.map(({ name, email, totalSpent, orderCount, joinDate }) => ({ name, email, totalSpent, orderCount, joinDate: new Date(joinDate).toLocaleDateString() }));
+                filename = 'customers.csv';
+            }
+
+            const csv = [
+                Object.keys(data[0]).join(','),
+                ...data.map(row => Object.values(row).map(v => '"' + String(v).replace(/"/g, '""') + '"').join(','))
+            ].join('\n');
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeLogin();
+                closeSignup();
+                closeProductModal();
+            }
+        });
+    </script>
+</body>
+</html>
